@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/user/") // URL par défaut : http://localhost:8080/api/users/
+@RequestMapping("/api/user") // URL par défaut : http://localhost:8080/api/users
 public class UsersController {
 
     // ========== Propriétés ==========
 
     private final UsersService usersService;
+
 
     // ========== Constructeur ==========
 
@@ -24,66 +25,95 @@ public class UsersController {
         this.usersService = usersService;
     }
 
-    // ----- READ ALL -----
+
+    // ========== Méthodes ==========
+
+    // ----- Read -----
 
     /**
-     * Afficher tous
+     * Récupérer tous les utilisateurs
      */
-//    @GetMapping // http://localhost:8080/api/user/
-//    public ResponseEntity<List<UsersDtoSend>> getAll() {
-//        return new ResponseEntity<>(usersService.getAll(), HttpStatus.OK);
-//    }
-
-    // ----- READ ONE -----
+    @GetMapping // GET http://localhost:8080/api/user
+    public List<UsersDtoSend> getAllUsers() {
+        return usersService.getAllUsers();
+    }
 
     /**
-     * Afficher un par son id
+     * Récupérer un utilisateur par id
      */
-//    @GetMapping("{id}") // URL : http://localhost:8080/api/user/1
-//    public ResponseEntity<UsersDtoSend> getById(@PathVariable int id) {
-//        return new ResponseEntity<>(usersService.getById(id), HttpStatus.OK);
-//    }
+    @GetMapping("/{id}") // GET http://localhost:8080/api/user/{id}
+    public ResponseEntity<UsersDtoSend> getUserById(@PathVariable Long id) {
+        try {
+            UsersDtoSend user = usersService.getUserById(id);
+            return ResponseEntity.ok(user);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-    // ----- CREATE -----
+    /**
+     * Récupérer un utilisateur par username
+     */
+    @GetMapping("/username/{username}") // GET http://localhost:8080/api/user/username/{username}
+    public ResponseEntity<UsersDtoSend> getUserByUsername(@PathVariable String username) {
+        try {
+            UsersDtoSend user = usersService.getUserByUsername(username);
+            return ResponseEntity.ok(user);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    // ----- Create -----
 
     /**
      * Créer un utilisateur
      */
-    @PostMapping // http://localhost:8080/api/user/ en POST
-    public ResponseEntity<UsersDtoSend> create(@RequestBody UsersDtoReceive usersDtoReceive) {
-        Users users = usersService.create(usersDtoReceive); // Appeler le service pour créer l'utilisateur
-
-        UsersDtoSend usersDtoSend = new UsersDtoSend(
-            users.getId(),
-            users.getUsername(),
-            users.getEmail(),
-            users.getCreatedAt(),
-            users.getRole().getId() // Récupérer l'ID du rôle ici
-        );
-
-        return new ResponseEntity<>(usersDtoSend, HttpStatus.CREATED); // Retourner la réponse HTTP avec le statut 201 Created
+    @PostMapping // POST http://localhost:8080/api/user
+    public ResponseEntity<UsersDtoSend> createUser(@RequestBody UsersDtoReceive dto) {
+        try {
+            UsersDtoSend createdUser = usersService.createUser(dto);
+            return ResponseEntity.status(201).body(createdUser);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
-    /* Test dans Endpoint :
-      "username": "1234",
-      "password": "12345678",
-      "email": "moi@laposte.net",
-      "createdAt": "2024-11-24T18:02:00",
-      "roleId": 0
+    // ----- Update -----
+
+    /**
+     * Modifier un utilisateur
      */
+    @PutMapping("/{id}") // PUT http://localhost:8080/api/user/{id}
+    public ResponseEntity<UsersDtoSend> updateUser(@PathVariable Long id, @RequestBody UsersDtoReceive dto) {
+        try {
+            UsersDtoSend updatedUser = usersService.updateUser(id, dto);
+            return ResponseEntity.ok(updatedUser);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-    // ----- UPDATE -----
 
-//    @PutMapping("{id}")
-//    public ResponseEntity<UsersDtoSend> update(@PathVariable int id, @RequestBody UsersDtoReceive usersDtoReceive) {
-//        return new ResponseEntity<>(usersService.update(id, usersDtoReceive), HttpStatus.OK);
-//    }
+    // ----- Delete -----
 
-    // ----- DELETE -----
+    /**
+     * Supprimer un utilisateur
+     */
+    @DeleteMapping("/{id}") // DELETE http://localhost:8080/api/user/{id}s
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        try {
+            usersService.deleteUser(id);
+            return ResponseEntity.noContent().build();
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Void> deleteById(@PathVariable int id) {
-//        usersService.deleteById(id);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
 }

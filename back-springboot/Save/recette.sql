@@ -121,10 +121,10 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`id`, `role_name`) VALUES
-(4, 'Admin'),
-(2, 'Animateur'),
 (1, 'Membre'),
+(2, 'Animateur'),
 (3, 'Modérateur'),
+(4, 'Admin'),
 (5, 'Super Admin');
 
 -- --------------------------------------------------------
