@@ -7,6 +7,7 @@ import org.example.backspringboot.entity.Users;
 import org.example.backspringboot.repository.RoleRepository;
 import org.example.backspringboot.repository.UsersRepository;
 //import org.springframework.beans.factory.annotation.Autowired;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -66,7 +67,7 @@ public class UsersService {
      * Créer un utilisateur
      */
     public UsersDtoSend createUser(UsersDtoReceive dto) {
-        // Vérifie que le username et l'email n'existent pas déjà
+        // Vérifie que le username et l'email n'existent pas déjà :
         if (usersRepository.findByUsername(dto.getUsername()) != null) {
             throw new IllegalArgumentException("Le nom d'utilisateur existe déjà : " + dto.getUsername());
         }
@@ -81,7 +82,9 @@ public class UsersService {
 
         Users user = new Users();
         user.setUsername(dto.getUsername());
-        user.setPassword(dto.getPassword()); // idéalement, hasher le mot de passe ici
+//        user.setPassword(dto.getPassword()); // Sans hasher le mot de passe
+        String hashedPassword = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()); // Hasher le mot de passe avec BCrypt. BCrypt.gensalt(12) : Génère un sel avec un facteur de coût spécifié (12) au lieu de 10 par défaut
+        user.setPassword(hashedPassword);
         user.setEmail(dto.getEmail());
         user.setCreatedAt(LocalDateTime.now());
         user.setRole(role);
@@ -102,7 +105,10 @@ public class UsersService {
 
         // Met à jour les champs
         existingUser.setUsername(dto.getUsername());
-        existingUser.setPassword(dto.getPassword()); // hasher idéalement
+//        existingUser.setPassword(dto.getPassword()); // Sans hasher
+        if (dto.getPassword() != null && !dto.getPassword().isBlank() && !BCrypt.checkpw(dto.getPassword(), existingUser.getPassword())) { // Re-hash seulement si un nouveau mot de passe est fourni et différent
+            existingUser.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+        }
         existingUser.setEmail(dto.getEmail());
 
         Role role = roleRepository.findById(dto.getRoleId())
