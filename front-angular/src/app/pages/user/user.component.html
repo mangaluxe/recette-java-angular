@@ -1,0 +1,19 @@
+<!-- src/app/pages/user/user.component.html : -->
+
+<div class="container">
+    <main>
+
+        @if (user) {
+            <h1 class="text-center">{{ user.username }}</h1>
+            <p>Email : {{ user.email }}</p>
+            <p>Date de création : {{ user.createdAt | date:'dd/MM/yyyy HH:mm'  }}</p>
+            <p>Rôle : {{ user.roleName }}</p>
+        }
+        @else {
+            <p>Utilisateur introuvable</p>
+        }
+
+        <p class="mt-5"><a routerLink="/utilisateurs">Retour liste d'utilisateurs</a></p>
+
+    </main>
+</div>

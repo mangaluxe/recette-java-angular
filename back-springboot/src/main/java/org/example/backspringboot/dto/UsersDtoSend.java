@@ -38,18 +38,21 @@ public class UsersDtoSend {
 
     private Long roleId;
 
+    private String roleName; // 👈 Pour éviter de devoir récupérer le nom de rôle avec des requêtes supplémentaires
+
 
     // ========== Constructeurs ==========
 
     public UsersDtoSend() {
     }
 
-    public UsersDtoSend(Long id, String username, String email, LocalDateTime createdAt, Long roleId) {
+    public UsersDtoSend(Long id, String username, String email, LocalDateTime createdAt, Long roleId, String roleName) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.createdAt = createdAt;
         this.roleId = roleId;
+        this.roleName = roleName;
     }
 
 
@@ -93,6 +96,14 @@ public class UsersDtoSend {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
 }

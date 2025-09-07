@@ -1,0 +1,31 @@
+<!-- src/app/pages/users/users.component.html : -->
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Liste d'utilisateurs</h1>
+
+        <div class="table-list-head">
+            <div class="e">Utilisateur</div>
+            <div class="e">Email</div>
+            <div class="e">Date de création</div>
+            <div class="e">Rôle</div>
+        </div>
+        <ul class="table-list">
+
+            @for (user of users; track user) {
+                <li>
+                    <div class="e"><a [routerLink]="['/utilisateur', user.id]">{{ user.username }}</a></div>
+                    <div class="e">{{ user.email }}</div>
+                    <div class="e">{{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+                    <div class="e">{{ user.roleName }}</div>
+                </li>
+            }
+            @empty {
+                <li>Aucun livre (ou vous n'avez pas lancé l'application back-end)</li>
+            }
+
+        </ul>
+
+    </main>
+</div>

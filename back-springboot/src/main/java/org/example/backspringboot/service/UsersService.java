@@ -146,6 +146,7 @@ public class UsersService {
         dto.setEmail(user.getEmail());
         dto.setCreatedAt(user.getCreatedAt());
         dto.setRoleId(user.getRole().getId());
+        dto.setRoleName(user.getRole().getRoleName()); // 👈 Pour éviter de devoir récupérer le nom de rôle avec des requêtes supplémentaires
         return dto;
     }
 
