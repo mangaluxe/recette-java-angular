@@ -66,6 +66,10 @@ export class UsersService {
 
   // ----- Read -----
 
+  // getUsers(): Observable<any[]> { // Sans modele User
+  //   return this.http.get<any[]>(this.apiUrl);
+  // }
+
   /**
    * Récupérer tous les utilisateurs
    */
@@ -76,7 +80,7 @@ export class UsersService {
   /**
    * Récupérer un utilisateur par id
    */
-  getUser(id: number): Observable<User> {
+  getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
   
@@ -118,6 +122,8 @@ ng generate component pages/users
 
 ng generate component pages/user
 
+ng generate component pages/user-create
+
 ng generate component pages/recipes
 ```
 
@@ -134,7 +140,8 @@ export class UsersComponent implements OnInit {
 
   // ========== Propriétés ==========
 
-  users: any[] = [];
+  // users: any[] = []; // Sans modele User
+  users: User[] = [];
 
   // ========== Constructeur ==========
 

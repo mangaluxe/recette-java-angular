@@ -44,14 +44,15 @@ export class UsersService {
   
   // ----- Create -----
 
-  // createUser(user: any): Observable<any> {
+  // addUser(user: any): Observable<any> {
   //   return this.http.post<any>(this.apiUrl, user);
   // }
 
   /**
    * Créer un utilisateur
    */
-  createUser(user: User): Observable<User> {
+  // addUser(user: User): Observable<User> {
+  addUser(user: Partial<User>): Observable<User> { // Partial<User> : envoyer un objet partiel (ex. sans id, sans createdAt qui seront générés par le backend)
     return this.http.post<User>(this.apiUrl, user);
   }
 

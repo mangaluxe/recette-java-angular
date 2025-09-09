@@ -1,0 +1,47 @@
+<!-- src/app/pages/user-create/user-create.component.html : -->
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Inscription</h1>
+
+        <form [formGroup]="register_form" (ngSubmit)="addUser()" class="form-box mt-5" enctype="multipart/form-data">
+            <label for="username">Pseudo :
+                <input type="text" id="username" formControlName="username">
+            </label>
+            <!-- <div class="invalid" *ngIf="register_form.get('username')?.invalid && register_form.get('username')?.touched">Le pseudo doit contenir au moins 3 caractères.</div> -->
+            @if (register_form.get('username')?.invalid && register_form.get('username')?.touched) {
+                <div class="invalid">Le pseudo doit contenir au moins 3 caractères.</div>
+            }
+            
+            <label for="email">Email :
+                <input type="email" id="email" formControlName="email">
+            </label>
+            <!-- <div class="invalid" *ngIf="register_form.get('email')?.invalid && register_form.get('email')?.touched">Merci d’entrer un email valide.</div> -->
+            @if (register_form.get('email')?.invalid && register_form.get('email')?.touched) {
+                <div class="invalid">Merci d’entrer un email valide.</div>
+            }
+
+            <label for="password">Mot de passe :
+                <input type="password" id="password" formControlName="password">
+            </label>
+            <!-- <div class="invalid" *ngIf="register_form.get('password')?.invalid && register_form.get('password')?.touched">Le mot de passe doit contenir au moins 4 caractères.</div> -->
+            @if (register_form.get('password')?.invalid && register_form.get('password')?.touched) {
+                <div class="invalid">Le mot de passe doit contenir au moins 4 caractères.</div>
+            }
+
+            <label for="confirm_password">Répéter mot de passe :
+                <input type="password" id="confirm_password" formControlName="confirm_password">
+            </label>
+            <!-- <div class="invalid" *ngIf="register_form.hasError('mismatch') && register_form.get('confirm_password')?.touched">Les mots de passe ne correspondent pas.</div> -->
+            @if (register_form.hasError('mismatch') && register_form.get('confirm_password')?.touched) {
+                <div class="invalid">Les mots de passe ne correspondent pas.</div>
+            }
+            
+            <div class="mt-2">
+                <button type="submit" class="btn btn-success" [disabled]="register_form.invalid">Ajouter</button>
+            </div>
+        </form>
+
+    </main>
+</div>

@@ -1,5 +1,6 @@
 package org.example.backspringboot.controller;
 
+import jakarta.validation.Valid;
 import org.example.backspringboot.dto.UsersDtoReceive;
 import org.example.backspringboot.dto.UsersDtoSend;
 import org.example.backspringboot.entity.Users;
@@ -73,7 +74,7 @@ public class UsersController {
      * Créer un utilisateur
      */
     @PostMapping // POST http://localhost:8080/api/user
-    public ResponseEntity<UsersDtoSend> createUser(@RequestBody UsersDtoReceive dto) {
+    public ResponseEntity<UsersDtoSend> createUser(@Valid @RequestBody UsersDtoReceive dto) {
         try {
             UsersDtoSend createdUser = usersService.createUser(dto);
             return ResponseEntity.status(201).body(createdUser);
@@ -105,7 +106,7 @@ public class UsersController {
     /**
      * Supprimer un utilisateur
      */
-    @DeleteMapping("/{id}") // DELETE http://localhost:8080/api/user/{id}s
+    @DeleteMapping("/{id}") // DELETE http://localhost:8080/api/user/{id}
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         try {
             usersService.deleteUser(id);
