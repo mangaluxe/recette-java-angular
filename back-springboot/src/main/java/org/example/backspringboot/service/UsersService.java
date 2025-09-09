@@ -76,9 +76,9 @@ public class UsersService {
             throw new IllegalArgumentException("L'email existe déjà : " + dto.getEmail());
         }
 
-        // Récupère le rôle
-        Role role = roleRepository.findById(dto.getRoleId())
-                .orElseThrow(() -> new IllegalArgumentException("Rôle non trouvé avec l'id : " + dto.getRoleId()));
+        // Récupère le rôle et on force le roleId à 1 par défaut :
+        Role role = roleRepository.findById(1L)
+                .orElseThrow(() -> new IllegalArgumentException("Rôle non trouvé"));
 
         Users user = new Users();
         user.setUsername(dto.getUsername());
@@ -111,8 +111,8 @@ public class UsersService {
         }
         existingUser.setEmail(dto.getEmail());
 
-        Role role = roleRepository.findById(dto.getRoleId())
-                .orElseThrow(() -> new IllegalArgumentException("Rôle non trouvé avec l'id : " + dto.getRoleId()));
+        Role role = roleRepository.findById(1L)
+                .orElseThrow(() -> new IllegalArgumentException("Rôle non trouvé"));
 
         existingUser.setRole(role);
 

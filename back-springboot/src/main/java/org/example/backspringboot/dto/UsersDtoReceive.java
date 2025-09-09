@@ -45,7 +45,7 @@ public class UsersDtoReceive {
 //
 //    private boolean isActive;
 
-    private Long roleId;
+//    private Long roleId; // Pas besoin, car on met roleId à 1 par défaut (pour membre)
 
 
     // ========== Constructeurs ==========
@@ -53,11 +53,10 @@ public class UsersDtoReceive {
     public UsersDtoReceive() {
     }
 
-    public UsersDtoReceive(String username, String password, String email, Long roleId) {
+    public UsersDtoReceive(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.roleId = roleId;
     }
 
 
@@ -85,14 +84,6 @@ public class UsersDtoReceive {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
     }
 
 }

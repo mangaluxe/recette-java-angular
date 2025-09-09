@@ -37,8 +37,7 @@ export class UserCreateComponent {
       const newUser = {
         username: this.register_form.value.username,
         email: this.register_form.value.email,
-        password: this.register_form.value.password,
-        roleId: 1 // 👈 rôle par défaut "Membre"
+        password: this.register_form.value.password
       };
   
       this.userService.addUser(newUser).subscribe({
