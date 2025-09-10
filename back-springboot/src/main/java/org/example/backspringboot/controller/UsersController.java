@@ -1,6 +1,7 @@
 package org.example.backspringboot.controller;
 
 import jakarta.validation.Valid;
+import org.example.backspringboot.dto.ErrorResponse;
 import org.example.backspringboot.dto.UsersDtoReceive;
 import org.example.backspringboot.dto.UsersDtoSend;
 import org.example.backspringboot.entity.Users;
@@ -74,15 +75,18 @@ public class UsersController {
      * Créer un utilisateur
      */
     @PostMapping // POST http://localhost:8080/api/user
-    public ResponseEntity<UsersDtoSend> createUser(@Valid @RequestBody UsersDtoReceive dto) {
+//    public ResponseEntity<UsersDtoSend> createUser(@Valid @RequestBody UsersDtoReceive dto) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UsersDtoReceive dto) {
         try {
             UsersDtoSend createdUser = usersService.createUser(dto);
             return ResponseEntity.status(201).body(createdUser);
         }
         catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+//            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage())); // On crée une classe "ErrorResponse" dans dto pour gérer pseudo/email déjà utilisé
         }
     }
+
 
     // ----- Update -----
 

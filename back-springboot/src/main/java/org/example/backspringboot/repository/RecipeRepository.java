@@ -20,4 +20,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     List<Recipe> findByTitleContainingIgnoreCase(String title); // Rechercher par titre
 
+    boolean existsBySlug(String slug); // Vérifie que le slug existe déjà
+
 }

@@ -1,0 +1,32 @@
+<!-- src/app/pages/recipes/recipes.component.html : -->
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Liste de recettes</h1>
+
+        <h2 class="h-triangle">Toutes nos recettes</h2>
+
+        <div class="recipes-container">
+    
+            @for (recipe of recipes; track recipe) {
+    
+                <div class="recipe-box">
+                    <div class="recipe-box-in">
+                        <a [routerLink]="['/recette', recipe.id]" class="img"><img src="assets/img/{{ recipe.image }}" alt="{{ recipe.title }}"></a>
+                        <div class="txt">
+                            <h2>{{ recipe.title }}</h2>
+                            <p>{{ recipe.description }}</p>
+                            <a [routerLink]="['/recette', recipe.id]" class="mini-btn btn-success">Voir Détails</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            @empty {
+                <p class="center">Aucune recette</p>
+            }
+
+        </div>
+
+    </main>
+</div>

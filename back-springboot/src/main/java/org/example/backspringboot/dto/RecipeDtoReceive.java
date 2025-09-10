@@ -3,6 +3,8 @@ package org.example.backspringboot.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
+import java.util.List;
+
 public class RecipeDtoReceive {
 
     // ========== Propriétés ==========
@@ -29,6 +31,8 @@ public class RecipeDtoReceive {
     private Long categoryId; // ID de la catégorie
 
     private Long userId; // ID de l'auteur
+
+    private List<RecipeIngredientDtoReceive> ingredients; // 💡 Ajout pour gérer les ingrédients
 
 
     // ========== Constructeurs ==========
@@ -82,5 +86,8 @@ public class RecipeDtoReceive {
 
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
+
+    public List<RecipeIngredientDtoReceive> getIngredients() { return ingredients; } // 💡 Ajout pour gérer les ingrédients
+    public void setIngredients(List<RecipeIngredientDtoReceive> ingredients) { this.ingredients = ingredients; }
 
 }

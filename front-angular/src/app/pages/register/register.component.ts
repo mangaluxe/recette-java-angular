@@ -1,3 +1,5 @@
+// src/app/pages/register/register.component.ts :
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
@@ -5,15 +7,16 @@ import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user-create',
+  selector: 'app-register',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './user-create.component.html'
+  templateUrl: './register.component.html'
 })
-export class UserCreateComponent {
+export class RegisterComponent {
 
   // ========== Propriétés ==========
 
   register_form: FormGroup; // Formulaire pour inscription d'utilisateur
+  errorMessage: string | null = null; // 💡 Pour afficher les erreurs serveur
 
 
   // ========== Constructeur ==========
@@ -23,8 +26,7 @@ export class UserCreateComponent {
       username: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      confirm_password: new FormControl('', [Validators.required])
-    }, { validators: UserCreateComponent.passwordMatchValidator });
+      confirm_password: new FormControl('', [Validators.required, Validators.minLength(4)])});
   }
 
 
@@ -34,6 +36,12 @@ export class UserCreateComponent {
 
   addUser(): void {
     if (this.register_form.valid) {
+      
+      if (this.register_form.value.password !== this.register_form.value.confirm_password) { // Vérification des mots de passe
+        console.error("Les mots de passe ne correspondent pas !");
+        return;
+      }
+
       const newUser = {
         username: this.register_form.value.username,
         email: this.register_form.value.email,
@@ -42,28 +50,12 @@ export class UserCreateComponent {
   
       this.userService.addUser(newUser).subscribe({
         next: () => this.router.navigate(['/bases']),
-        error: (err) => console.error('Erreur inscription :', err),
+        error: (err) => {
+          console.error('Erreur inscription :', err);
+          this.errorMessage = err.error?.message || 'Erreur inconnue'; // 💡 Récupère le message envoyé par Spring
+        }
       });
     }
   }
-  
-
-  // ----- Vérification -----
-
-  /**
-   * Vérifier répétition de mot de passe
-   */
-  static passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const group = control as FormGroup;
-    const password = group.get('password')?.value;
-    const confirmPassword = group.get('confirm_password')?.value;
-
-    return password === confirmPassword ? null : { mismatch: true };
-  }
-
-  /*
-  AbstractControl	: Contrôle générique, ici casté en FormGroup.
-  ValidationErrors : Objet { [clé: string]: any } représentant des erreurs
-  */
 
 }

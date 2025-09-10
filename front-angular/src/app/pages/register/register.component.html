@@ -1,4 +1,4 @@
-<!-- src/app/pages/user-create/user-create.component.html : -->
+<!-- src/app/pages/register/register.component.html : -->
 
 <div class="container">
     <main>
@@ -33,11 +33,15 @@
             <label for="confirm_password">Répéter mot de passe :
                 <input type="password" id="confirm_password" formControlName="confirm_password">
             </label>
-            <!-- <div class="invalid" *ngIf="register_form.hasError('mismatch') && register_form.get('confirm_password')?.touched">Les mots de passe ne correspondent pas.</div> -->
-            @if (register_form.hasError('mismatch') && register_form.get('confirm_password')?.touched) {
+            @if (register_form.get('password')?.value !== register_form.get('confirm_password')?.value 
+            && register_form.get('confirm_password')?.touched) {
                 <div class="invalid">Les mots de passe ne correspondent pas.</div>
             }
-            
+
+            @if (errorMessage) {
+                <div class="invalid">{{ errorMessage }}</div>
+            }
+
             <div class="mt-2">
                 <button type="submit" class="btn btn-success" [disabled]="register_form.invalid">Ajouter</button>
             </div>

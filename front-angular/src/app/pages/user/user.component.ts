@@ -15,7 +15,8 @@ export class UserComponent {
 
   // ========== Propriétés ==========
 
-  user?: User;
+  user?: User; // Retourne utilisateur ou undefined
+  // user: User | undefined; // Equivalent à ci-dessus
 
   // ========== Constructeur ==========
 

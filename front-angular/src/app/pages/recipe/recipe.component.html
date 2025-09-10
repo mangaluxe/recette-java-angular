@@ -1,0 +1,59 @@
+<main>
+
+    <!-- <h1 class="center">Choux à la crème</h1> -->
+    <h1 class="center">{{ recipe?.title }}</h1>
+
+    <div class="box-img">
+        <!-- <img src="assets/img/1.jpg" alt="Choux à la crème"> -->
+        <img [src]="'assets/img/' + recipe?.image" [alt]="recipe?.title">
+
+        <div class="box-img-icons">
+            <!-- <div (click)="toggleFavorite()"><span class="icon-star-full" [ngClass]="{ 'active': isFavorite }"></span></div> -->
+            <!-- <div>Partager :
+                <a href="https://www.facebook.com/sharer/sharer.php?u="><span class="icon-f"></span></a>
+                <a href="#"><span class="icon-i"></span></a>
+                <a href="https://twitter.com/share?url="><span class="icon-t"></span></a>
+            </div> -->
+        </div>
+
+        <div class="info-box">
+            <div>Durée : <span>{{ recipe?.cookTime }}</span> min</div>
+            <div>Nb de personnes : <span>{{ recipe?.servings }}</span></div>
+        </div>
+    </div>
+
+    <div class="box-text mt-5">
+        <!-- <p>Qui aime les choux à la crème ? Tout le monde ! Et ceux-là sont tout simplement divins. Une pâte à choux légère et aérienne, de la crème pâtissière vanillée gourmande et savoureuse... Voilà LA recette qui vous fera réussir des petits choux exquis à coup sûr pour épater et surtout régaler famille et amis à l'heure du dessert ou du goûter. Testez-la, vous nous en direz des nouvelles (et vos invités aussi) !</p> -->
+
+        <p>{{ recipe?.description }}</p>
+    </div>
+
+    <h2 class="h-line">Ingrédients</h2>
+
+    <ul class="ingredient-box">
+        <!-- <li>Farine : 125 g</li>
+        <li>Beurre salé : 70 g</li>
+        <li>Œuf(s) : 3</li>
+        <li>Eau : 0,25 l</li>
+        <li>Sel : 5 g</li>
+        <li>Sucre semoule : 175 g</li>
+        <li>Lait entier : 0,5 l</li>
+        <li>Jaune(s) d'œuf(s) : 4</li>
+        <li>Vanille : 1</li> -->
+
+        @for (ingredient of recipe?.ingredients; track ingredient) {
+            <li>{{ ingredient.name }} : {{ ingredient.quantity }} {{ ingredient.unit }}</li>
+        }
+    </ul>
+
+    <h2 class="h-line">Instructions</h2>
+
+    <div class="box-text">
+        <!-- <p>Qui aime les choux à la crème ? Tout le monde ! Et ceux-là sont tout simplement divins. Une pâte à choux légère et aérienne, de la crème pâtissière vanillée gourmande et savoureuse... Voilà LA recette qui vous fera réussir des petits choux exquis à coup sûr pour épater !</p>
+        <p>Testez-la, vous nous en direz des nouvelles (et vos invités aussi) !</p> -->
+
+        <p>{{ recipe?.instructions }}</p>
+
+    </div>
+
+</main>

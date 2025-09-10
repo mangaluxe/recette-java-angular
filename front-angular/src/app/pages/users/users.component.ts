@@ -16,7 +16,7 @@ export class UsersComponent implements OnInit {
   // ========== Propriétés ==========
 
   // users: any[] = []; // Sans modele User
-  users: User[] = [];
+  users: User[] = []; // Retourne un tableau d'utilisateurs, par défaut un tableau vide
 
   // ========== Constructeur ==========
 
@@ -27,7 +27,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.getUsers().subscribe({
       next: (data) => this.users = data,
-      error: (err) => console.error('Erreur API:', err)
+      error: (err) => console.error('Erreur chargement utilisateurs :', err)
     });
   }
 

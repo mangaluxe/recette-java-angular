@@ -2,10 +2,11 @@ package org.example.backspringboot.service;
 
 import org.example.backspringboot.dto.RecipeDtoReceive;
 import org.example.backspringboot.dto.RecipeDtoSend;
-import org.example.backspringboot.entity.Category;
-import org.example.backspringboot.entity.Recipe;
-import org.example.backspringboot.entity.Users;
+import org.example.backspringboot.dto.RecipeIngredientDtoReceive;
+import org.example.backspringboot.dto.RecipeIngredientDtoSend;
+import org.example.backspringboot.entity.*;
 import org.example.backspringboot.repository.CategoryRepository;
+import org.example.backspringboot.repository.IngredientRepository;
 import org.example.backspringboot.repository.RecipeRepository;
 import org.example.backspringboot.repository.UsersRepository;
 import org.example.backspringboot.util.Util;
@@ -22,16 +23,18 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final CategoryRepository categoryRepository;
     private final UsersRepository usersRepository;
+    private final IngredientRepository ingredientRepository; // 💡 Ajout pour gérer les ingrédients
 
 
     // ========== Constructeur ==========
 
     public RecipeService(RecipeRepository recipeRepository,
                          CategoryRepository categoryRepository,
-                         UsersRepository usersRepository) {
+                         UsersRepository usersRepository, IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
         this.usersRepository = usersRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
 
@@ -39,41 +42,107 @@ public class RecipeService {
 
     // ----- Read -----
 
+//    public List<RecipeDtoSend> getAllRecipes() {
+//        return recipeRepository.findAll().stream()
+//                .map(r -> new RecipeDtoSend(
+//                        r.getId(),
+//                        r.getTitle(),
+//                        r.getDescription(),
+//                        r.getPrepTime(),
+//                        r.getCookTime(),
+//                        r.getServings(),
+//                        r.getImage(),
+//                        r.isAllowComment(),
+//                        r.getCreatedAt(),
+//                        r.getCategory().getName(),
+//                        r.getUser().getUsername()
+//                ))
+//                .toList();
+//    }
+
     public List<RecipeDtoSend> getAllRecipes() {
         return recipeRepository.findAll().stream()
-                .map(r -> new RecipeDtoSend(
-                        r.getId(),
-                        r.getTitle(),
-                        r.getDescription(),
-                        r.getPrepTime(),
-                        r.getCookTime(),
-                        r.getServings(),
-                        r.getImage(),
-                        r.isAllowComment(),
-                        r.getCreatedAt(),
-                        r.getCategory().getName(),
-                        r.getUser().getUsername()
-                ))
+                .map(r -> {
+                    List<RecipeIngredientDtoSend> ingredients = r.getRecipeIngredients().stream()
+                            .map(ri -> new RecipeIngredientDtoSend(
+                                    ri.getIngredient().getName(),
+                                    ri.getQuantity(),
+                                    ri.getIngredient().getUnit()
+                            ))
+                            .toList();
+
+                    RecipeDtoSend dto = new RecipeDtoSend(
+                            r.getId(),
+                            r.getTitle(),
+                            r.getDescription(),
+                            r.getInstructions(),
+                            r.getPrepTime(),
+                            r.getCookTime(),
+                            r.getServings(),
+                            r.getImage(),
+                            r.isAllowComment(),
+                            r.getCreatedAt(),
+                            r.getCategory().getName(),
+                            r.getUser().getUsername(),
+                            ingredients
+                    );
+
+                    dto.setIngredients(ingredients); // Ajoute la liste des ingrédients
+                    return dto;
+                })
                 .toList();
     }
 
+//    public RecipeDtoSend getRecipeById(Long id) {
+//        Recipe recipe = recipeRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Recette non trouvée"));
+//
+//        return new RecipeDtoSend(
+//                recipe.getId(),
+//                recipe.getTitle(),
+//                recipe.getDescription(),
+//                recipe.getPrepTime(),
+//                recipe.getCookTime(),
+//                recipe.getServings(),
+//                recipe.getImage(),
+//                recipe.isAllowComment(),
+//                recipe.getCreatedAt(),
+//                recipe.getCategory().getName(),
+//                recipe.getUser().getUsername()
+//        );
+//    }
+
     public RecipeDtoSend getRecipeById(Long id) {
-        Recipe recipe = recipeRepository.findById(id)
+        Recipe r = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recette non trouvée"));
 
-        return new RecipeDtoSend(
-                recipe.getId(),
-                recipe.getTitle(),
-                recipe.getDescription(),
-                recipe.getPrepTime(),
-                recipe.getCookTime(),
-                recipe.getServings(),
-                recipe.getImage(),
-                recipe.isAllowComment(),
-                recipe.getCreatedAt(),
-                recipe.getCategory().getName(),
-                recipe.getUser().getUsername()
+        List<RecipeIngredientDtoSend> ingredients = r.getRecipeIngredients().stream()
+                .map(ri -> new RecipeIngredientDtoSend(
+                        ri.getIngredient().getName(),
+                        ri.getQuantity(),
+                        ri.getIngredient().getUnit()
+                ))
+                .toList();
+
+        RecipeDtoSend dto = new RecipeDtoSend(
+                r.getId(),
+                r.getTitle(),
+                r.getDescription(),
+                r.getInstructions(),
+                r.getPrepTime(),
+                r.getCookTime(),
+                r.getServings(),
+                r.getImage(),
+                r.isAllowComment(),
+                r.getCreatedAt(),
+                r.getCategory().getName(),
+                r.getUser().getUsername(),
+                ingredients
         );
+
+        dto.setIngredients(ingredients); // Ajoute la liste des ingrédients
+
+        return dto;
     }
 
 
@@ -85,9 +154,18 @@ public class RecipeService {
         Users user = usersRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
+        String slug = Util.slugify(dto.getTitle());
+
+        // Vérifie si le slug existe déjà
+        int suffix = 1;
+        String uniqueSlug = slug;
+        while (recipeRepository.existsBySlug(uniqueSlug)) {
+            uniqueSlug = slug + "-" + suffix++;
+        }
+
         Recipe recipe = new Recipe();
         recipe.setTitle(dto.getTitle());
-        recipe.setSlug(Util.slugify(dto.getTitle()));
+        recipe.setSlug(uniqueSlug); // Slug unique
         recipe.setDescription(dto.getDescription());
         recipe.setInstructions(dto.getInstructions());
         recipe.setPrepTime(dto.getPrepTime());
@@ -99,12 +177,36 @@ public class RecipeService {
         recipe.setCategory(category);
         recipe.setUser(user);
 
+        // Gestion des ingrédients
+        if (dto.getIngredients() != null) {
+            for (RecipeIngredientDtoReceive riDto : dto.getIngredients()) {
+                Ingredient ingredient = ingredientRepository.findById(riDto.getIngredientId())
+                        .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
+                RecipeIngredient ri = new RecipeIngredient();
+                ri.setRecipe(recipe);
+                ri.setIngredient(ingredient);
+                ri.setQuantity(riDto.getQuantity());
+
+                recipe.getRecipeIngredients().add(ri);
+            }
+        }
+
         Recipe saved = recipeRepository.save(recipe);
+
+        // Transformation en DTO à renvoyer
+        List<RecipeIngredientDtoSend> ingredientDtoList = saved.getRecipeIngredients().stream()
+                .map(ri -> new RecipeIngredientDtoSend(
+                        ri.getIngredient().getName(),
+                        ri.getQuantity(),
+                        ri.getIngredient().getUnit()
+                ))
+                .toList();
 
         return new RecipeDtoSend(
                 saved.getId(),
                 saved.getTitle(),
                 saved.getDescription(),
+                saved.getInstructions(),
                 saved.getPrepTime(),
                 saved.getCookTime(),
                 saved.getServings(),
@@ -112,7 +214,8 @@ public class RecipeService {
                 saved.isAllowComment(),
                 saved.getCreatedAt(),
                 saved.getCategory().getName(),
-                saved.getUser().getUsername()
+                saved.getUser().getUsername(),
+                ingredientDtoList
         );
     }
 
@@ -139,12 +242,36 @@ public class RecipeService {
         recipe.setCategory(category);
         recipe.setUser(user);
 
+        // On peut réinitialiser et mettre à jour les ingrédients si nécessaire
+        recipe.getRecipeIngredients().clear();
+        if (dto.getIngredients() != null) {
+            for (RecipeIngredientDtoReceive riDto : dto.getIngredients()) {
+                Ingredient ingredient = ingredientRepository.findById(riDto.getIngredientId())
+                        .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
+                RecipeIngredient ri = new RecipeIngredient();
+                ri.setRecipe(recipe);
+                ri.setIngredient(ingredient);
+                ri.setQuantity(riDto.getQuantity());
+
+                recipe.getRecipeIngredients().add(ri);
+            }
+        }
+
         Recipe updated = recipeRepository.save(recipe);
+
+        List<RecipeIngredientDtoSend> ingredientDtoList = updated.getRecipeIngredients().stream()
+                .map(ri -> new RecipeIngredientDtoSend(
+                        ri.getIngredient().getName(),
+                        ri.getQuantity(),
+                        ri.getIngredient().getUnit()
+                ))
+                .toList();
 
         return new RecipeDtoSend(
                 updated.getId(),
                 updated.getTitle(),
                 updated.getDescription(),
+                updated.getInstructions(),
                 updated.getPrepTime(),
                 updated.getCookTime(),
                 updated.getServings(),
@@ -152,7 +279,8 @@ public class RecipeService {
                 updated.isAllowComment(),
                 updated.getCreatedAt(),
                 updated.getCategory().getName(),
-                updated.getUser().getUsername()
+                updated.getUser().getUsername(),
+                ingredientDtoList
         );
     }
 

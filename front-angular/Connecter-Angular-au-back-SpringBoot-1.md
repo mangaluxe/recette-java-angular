@@ -38,8 +38,6 @@ export interface User {
 
 ```bash
 ng generate service services/users
-
-ng generate service services/recipes
 ```
 
 src/app/services/users.service.ts :
@@ -48,6 +46,15 @@ src/app/services/users.service.ts :
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../models/user';
+
+// export interface User { // On peut mettre le model directement ici ou dans un fichier séparé : src/app/models/user.ts
+//   id: number;
+//   username: string;
+//   email: string;
+//   createdAt: string; // LocalDateTime → string JSON
+//   roleName: string;
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -83,7 +90,6 @@ export class UsersService {
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
-  
   
   // ----- Create -----
 
@@ -122,9 +128,7 @@ ng generate component pages/users
 
 ng generate component pages/user
 
-ng generate component pages/user-create
-
-ng generate component pages/recipes
+ng generate component pages/register
 ```
 
 Exemple dans UsersComponent : src/app/pages/users/users.component.ts :
@@ -152,7 +156,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.getUsers().subscribe({
       next: (data) => this.users = data,
-      error: (err) => console.error('Erreur API:', err)
+      error: (err) => console.error('Erreur chargement utilisateurs:', err)
     });
   }
 
@@ -205,7 +209,8 @@ export class UserComponent {
   
   // ========== Propriétés ==========
 
-  user?: User;
+  user?: User; // Retourne utilisateur ou undefined
+  // user: User | undefined; // Equivalent à ci-dessus
 
   // ========== Constructeur ==========
 

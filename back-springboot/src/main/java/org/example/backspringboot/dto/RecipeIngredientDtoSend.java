@@ -4,7 +4,7 @@ public class RecipeIngredientDtoSend {
 
     // ========== Propriétés ==========
 
-    private String ingredientName;
+    private String name;
     private int quantity;
     private String unit;
 
@@ -13,8 +13,8 @@ public class RecipeIngredientDtoSend {
 
     public RecipeIngredientDtoSend() {}
 
-    public RecipeIngredientDtoSend(String ingredientName, int quantity, String unit) {
-        this.ingredientName = ingredientName;
+    public RecipeIngredientDtoSend(String name, int quantity, String unit) {
+        this.name = name;
         this.quantity = quantity;
         this.unit = unit;
     }
@@ -22,8 +22,8 @@ public class RecipeIngredientDtoSend {
 
     // ========== Getters/Setters ==========
 
-    public String getIngredientName() { return ingredientName; }
-    public void setIngredientName(String ingredientName) { this.ingredientName = ingredientName; }
+    public String getName() { return name; }
+    public void setName(String ingredientName) { this.name = name; }
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }

@@ -13,7 +13,9 @@ import java.util.List;
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Builder
-@Table(name = "recipe") // Nom de table BDD (facultatif si identique)
+@Table(name = "recipe", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "slug")
+}) // Nom de table BDD (facultatif si identique). @UniqueConstraint pour que chaque entrée dans la colonne "slug" soit unique
 @Entity
 public class Recipe {
 

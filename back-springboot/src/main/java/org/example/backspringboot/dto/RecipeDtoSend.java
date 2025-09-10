@@ -1,6 +1,7 @@
 package org.example.backspringboot.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class RecipeDtoSend {
 
@@ -9,6 +10,7 @@ public class RecipeDtoSend {
     private Long id;
     private String title;
     private String description;
+    private String instructions;
     private int prepTime;
     private int cookTime;
     private int servings;
@@ -19,18 +21,22 @@ public class RecipeDtoSend {
     private String categoryName;
     private String authorName;
 
+    private List<RecipeIngredientDtoSend> ingredients; // 💡 Pour récupérer les ingrédients liés à la recette
+
 
     // ========== Constructeurs ==========
 
     public RecipeDtoSend() {}
 
-    public RecipeDtoSend(Long id, String title, String description,
+    public RecipeDtoSend(Long id, String title, String description, String instructions,
                          int prepTime, int cookTime, int servings,
                          String image, boolean allowComment, LocalDateTime createdAt,
-                         String categoryName, String authorName) {
+                         String categoryName, String authorName,
+                         List<RecipeIngredientDtoSend> ingredients) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.instructions = instructions;
         this.prepTime = prepTime;
         this.cookTime = cookTime;
         this.servings = servings;
@@ -39,6 +45,8 @@ public class RecipeDtoSend {
         this.createdAt = createdAt;
         this.categoryName = categoryName;
         this.authorName = authorName;
+
+        this.ingredients = ingredients;
     }
 
 
@@ -52,6 +60,9 @@ public class RecipeDtoSend {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public String getInstructions() { return instructions; }
+    public void setInstructions(String instructions) { this.instructions = instructions; }
 
     public int getPrepTime() { return prepTime; }
     public void setPrepTime(int prepTime) { this.prepTime = prepTime; }
@@ -76,5 +87,8 @@ public class RecipeDtoSend {
 
     public String getAuthorName() { return authorName; }
     public void setAuthorName(String authorName) { this.authorName = authorName; }
+
+    public List<RecipeIngredientDtoSend> getIngredients() { return ingredients; } // 💡 Pour récupérer les ingrédients liés à la recette
+    public void setIngredients(List<RecipeIngredientDtoSend> ingredients) { this.ingredients = ingredients; }
 
 }
