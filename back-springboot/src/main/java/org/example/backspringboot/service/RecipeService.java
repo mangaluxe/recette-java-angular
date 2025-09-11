@@ -13,6 +13,7 @@ import org.example.backspringboot.util.Util;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,6 +61,9 @@ public class RecipeService {
 //                .toList();
 //    }
 
+    /**
+     * Recupérer toutes les recettes
+     */
     public List<RecipeDtoSend> getAllRecipes() {
         return recipeRepository.findAll().stream()
                 .map(r -> {
@@ -112,6 +116,9 @@ public class RecipeService {
 //        );
 //    }
 
+    /**
+     * Récupérer une recette par id
+     */
     public RecipeDtoSend getRecipeById(Long id) {
         Recipe r = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recette non trouvée"));
@@ -148,6 +155,9 @@ public class RecipeService {
 
     // ----- Create -----
 
+    /**
+     * Ajouter une recette
+     */
     public RecipeDtoSend createRecipe(RecipeDtoReceive dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
@@ -177,11 +187,31 @@ public class RecipeService {
         recipe.setCategory(category);
         recipe.setUser(user);
 
-        // Gestion des ingrédients
+        // Gestion des ingrédients (existants ou nouveaux)
         if (dto.getIngredients() != null) {
+            if (recipe.getRecipeIngredients() == null) {
+                recipe.setRecipeIngredients(new ArrayList<>());
+            }
+
             for (RecipeIngredientDtoReceive riDto : dto.getIngredients()) {
-                Ingredient ingredient = ingredientRepository.findById(riDto.getIngredientId())
-                        .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
+                Ingredient ingredient;
+
+                if (riDto.getIngredientId() != null) {
+                    // ingrédient existant
+                    ingredient = ingredientRepository.findById(riDto.getIngredientId())
+                            .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
+                }
+                else if (riDto.getIngredientName() != null && riDto.getUnit() != null) {
+                    // nouvel ingrédient
+                    ingredient = new Ingredient();
+                    ingredient.setName(riDto.getIngredientName());
+                    ingredient.setUnit(riDto.getUnit());
+                    ingredient = ingredientRepository.save(ingredient);
+                }
+                else {
+                    throw new RuntimeException("Un ingrédient doit avoir soit un ID, soit un nom+unité");
+                }
+
                 RecipeIngredient ri = new RecipeIngredient();
                 ri.setRecipe(recipe);
                 ri.setIngredient(ingredient);
@@ -190,6 +220,12 @@ public class RecipeService {
                 recipe.getRecipeIngredients().add(ri);
             }
         }
+
+        System.out.println("Création recette : " + recipe.getTitle());
+        System.out.println("Nb ingrédients : " + (recipe.getRecipeIngredients() != null ? recipe.getRecipeIngredients().size() : 0));
+        recipe.getRecipeIngredients().forEach(ri -> {
+            System.out.println("Ingrédient : " + ri.getIngredient().getName() + ", quantité : " + ri.getQuantity());
+        });
 
         Recipe saved = recipeRepository.save(recipe);
 
@@ -201,6 +237,8 @@ public class RecipeService {
                         ri.getIngredient().getUnit()
                 ))
                 .toList();
+
+        System.out.println("Retour DTO : " + ingredientDtoList.size() + " ingrédients");
 
         return new RecipeDtoSend(
                 saved.getId(),
@@ -222,6 +260,9 @@ public class RecipeService {
 
     // ----- Update -----
 
+    /**
+     * Modifier une recette
+     */
     public RecipeDtoSend updateRecipe(Long id, RecipeDtoReceive dto) {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recette non trouvée"));
@@ -242,12 +283,24 @@ public class RecipeService {
         recipe.setCategory(category);
         recipe.setUser(user);
 
-        // On peut réinitialiser et mettre à jour les ingrédients si nécessaire
+        // Réinitialiser les ingrédients et les recréer
         recipe.getRecipeIngredients().clear();
         if (dto.getIngredients() != null) {
             for (RecipeIngredientDtoReceive riDto : dto.getIngredients()) {
-                Ingredient ingredient = ingredientRepository.findById(riDto.getIngredientId())
-                        .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
+                Ingredient ingredient;
+
+                if (riDto.getIngredientId() != null) {
+                    ingredient = ingredientRepository.findById(riDto.getIngredientId())
+                            .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
+                } else if (riDto.getIngredientName() != null && riDto.getUnit() != null) {
+                    ingredient = new Ingredient();
+                    ingredient.setName(riDto.getIngredientName());
+                    ingredient.setUnit(riDto.getUnit());
+                    ingredient = ingredientRepository.save(ingredient);
+                } else {
+                    throw new RuntimeException("Un ingrédient doit avoir soit un ID, soit un nom+unité");
+                }
+
                 RecipeIngredient ri = new RecipeIngredient();
                 ri.setRecipe(recipe);
                 ri.setIngredient(ingredient);
@@ -286,6 +339,9 @@ public class RecipeService {
 
     // ----- Delete -----
 
+    /**
+     * Supprimer une recette
+     */
     public void deleteRecipe(Long id) {
         recipeRepository.deleteById(id);
     }

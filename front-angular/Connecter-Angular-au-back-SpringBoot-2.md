@@ -88,6 +88,10 @@ export class RecipesService {
 ng generate component pages/recipes
 
 ng generate component pages/recipe
+
+ng generate component pages/admin
+
+ng generate component pages/admin-add-recipe
 ```
 
 Exemple dans RecipesComponent : src/app/pages/recipes/recipes.component.ts :
@@ -170,7 +174,8 @@ export const routes: Routes = [
   { path: 'utilisateur/:id', component: UserComponent }, // http://localhost:4200/utilisateur/1
   { path: 'inscription', component: RegisterComponent }, // http://localhost:4200/inscription
   { path: 'recettes', component: RecipesComponent }, // http://localhost:4200/recettes
-  { path: 'recette/:id', component: RecipeComponent } // http://localhost:4200/recette/1
+  { path: 'recette/:id', component: RecipeComponent }, // http://localhost:4200/recette/1
+  { path: 'admin', component: AdminComponent } // http://localhost:4200/admin
 ];
 ```
 

@@ -54,4 +54,13 @@ export class RecipesService {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   }
 
+  // ----- Create -----
+
+  /**
+   * Créer une recette
+   */
+  createRecipe(recipe: any): Observable<Recipe> {
+    return this.http.post<Recipe>(this.apiUrl, recipe);
+  }
+
 }

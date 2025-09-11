@@ -1,17 +1,15 @@
-// src/app/pages/recipes/recipes.component.ts :
-
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Recipe } from '../../models/recipe';
 import { RecipesService } from '../../services/recipes.service';
-import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-recipes',
+  selector: 'app-admin',
   imports: [RouterLink, CommonModule],
-  templateUrl: './recipes.component.html'
+  templateUrl: './admin.component.html'
 })
-export class RecipesComponent implements OnInit { // Note: Sans écrire "implements OnInit", ça marche quand même
+export class AdminComponent implements OnInit {
 
   // ========== Propriétés ==========
 

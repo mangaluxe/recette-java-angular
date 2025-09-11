@@ -537,7 +537,7 @@ footer a {
 
 @font-face {
     font-family: "icomoon";
-    src: url("/assets/font/icomoon.ttf") format("truetype"); /* Dans src/assets/font/icomoon.ttf */
+    src: url("assets/font/icomoon.ttf") format("truetype"); /* Dans src/assets/font/icomoon.ttf */
 }
 
 [class*="icon-"] {

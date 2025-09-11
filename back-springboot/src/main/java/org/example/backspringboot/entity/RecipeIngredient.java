@@ -1,5 +1,6 @@
 package org.example.backspringboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 //import lombok.AllArgsConstructor;
 //import lombok.Builder;
@@ -24,6 +25,7 @@ public class RecipeIngredient {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
+    @JsonBackReference // <-- correspond à Recipe
     private Recipe recipe; // Relation avec Recipe
 
     @ManyToOne

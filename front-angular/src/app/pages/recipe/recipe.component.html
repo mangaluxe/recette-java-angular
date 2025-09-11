@@ -9,11 +9,11 @@
 
         <div class="box-img-icons">
             <!-- <div (click)="toggleFavorite()"><span class="icon-star-full" [ngClass]="{ 'active': isFavorite }"></span></div> -->
-            <!-- <div>Partager :
+            <div>Partager :
                 <a href="https://www.facebook.com/sharer/sharer.php?u="><span class="icon-f"></span></a>
                 <a href="#"><span class="icon-i"></span></a>
                 <a href="https://twitter.com/share?url="><span class="icon-t"></span></a>
-            </div> -->
+            </div>
         </div>
 
         <div class="info-box">
@@ -52,8 +52,20 @@
         <!-- <p>Qui aime les choux à la crème ? Tout le monde ! Et ceux-là sont tout simplement divins. Une pâte à choux légère et aérienne, de la crème pâtissière vanillée gourmande et savoureuse... Voilà LA recette qui vous fera réussir des petits choux exquis à coup sûr pour épater !</p>
         <p>Testez-la, vous nous en direz des nouvelles (et vos invités aussi) !</p> -->
 
-        <p>{{ recipe?.instructions }}</p>
+        <!-- <div class="box-text">{{ recipe?.instructions }}</div> -->
+
+        <div class="box-text">
+            <!-- Considérer chaque saut de ligne comme une étape en affichant Etape n : -->
+            @for (step of recipe?.instructions?.split('\n'); track step; let i = $index) {
+                @if (step.trim() !== '') {
+                    <p class="b">Étape {{ i + 1 }} :</p>
+                    <p>{{ step }}</p>
+                }
+            }
+        </div>
 
     </div>
+
+    <p><a routerLink="/recettes">Retour liste de recettes</a></p>
 
 </main>

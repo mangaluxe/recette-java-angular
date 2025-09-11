@@ -1,5 +1,6 @@
 package org.example.backspringboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 //import lombok.AllArgsConstructor;
 //import lombok.Builder;
@@ -7,6 +8,7 @@ import jakarta.persistence.*;
 //import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 //@Data
@@ -58,7 +60,8 @@ public class Recipe {
     private Category category; // Catégorie de la recette
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecipeIngredient> recipeIngredients; // Relation avec RecipeIngredient
+    @JsonManagedReference // <-- ajoute ça pour éviter les cycles
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();; // Relation avec RecipeIngredient
 
 
     // ========== Constructeurs ==========

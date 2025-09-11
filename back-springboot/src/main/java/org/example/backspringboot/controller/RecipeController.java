@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recipe/") // URL par défaut : http://localhost:8080/api/recipe/
+@RequestMapping("/api/recipe") // URL par défaut : http://localhost:8080/api/recipe
 public class RecipeController {
 
     // ========== Propriétés ==========
@@ -74,73 +74,70 @@ public class RecipeController {
 
     {
       "title": "Pizza Margherita",
-      "description": "Pizza classique italienne",
-      "instructions": "Préchauffer le four, étaler la pâte, ajouter garniture...",
+      "description": "Pizza classique italienne avec tomate, mozzarella et basilic",
+      "instructions": "Préchauffer le four, étaler la pâte, ajouter garniture...\nMettre la pizza dans le four.\nAttendre.\nSortir.",
       "prepTime": 15,
       "cookTime": 20,
       "servings": 2,
       "image": "pizza.jpg",
       "allowComment": true,
       "categoryId": 1,
-      "userId": 1
+      "userId": 1,
+      "ingredients": [
+        {
+           "ingredientName": "Mozzarella",
+           "unit": "g",
+           "quantity": 150
+         },
+        {
+          "ingredientName": "Tomates fraîches",
+          "unit": "pièce",
+          "quantity": 3
+        },
+        {
+          "ingredientId": 1,
+          "quantity": 200
+        }
+      ]
     }
 
-    Ça crée la recette sans ingrédients pour l’instant.
-
-    2️⃣ Ajouter des ingrédients à la recette. Si recipeId est 1 :
-
-    POST http://localhost:8080/api/recipe/1/ingredients
-    Content-Type: application/json
-
-    {
-      "quantity": 200,
-      "ingredientId": 1
-    }
-
-    POST http://localhost:8080/api/recipe/1/ingredients
-    Content-Type: application/json
-
-    {
-      "quantity": 150,
-      "ingredientId": 2
-    }
-
-    3️⃣ Récupérer la recette avec ses ingrédients
+    2️⃣ Récupérer la recette avec ses ingrédients
 
     GET http://localhost:8080/api/recipe/1
 
     Affiche :
 
     {
-      "id": 1,
+      "id": 6,
       "title": "Pizza Margherita",
-      "description": "Pizza classique italienne",
+      "description": "Pizza classique italienne avec tomate, mozzarella et basilic",
+      "instructions": "Préchauffer le four, étaler la pâte, ajouter garniture...\nMettre la pizza dans le four.\nAttendre.\nSortir.",
       "prepTime": 15,
       "cookTime": 20,
       "servings": 2,
       "image": "pizza.jpg",
       "allowComment": true,
-      "createdAt": "2025-09-02T18:55:17",
-      "categoryName": "Plat principal",
-      "authorName": "admin"
+      "createdAt": "2025-09-11T15:16:42",
+      "categoryName": "Entrée",
+      "authorName": "admin",
+      "ingredients": [
+        {
+          "name": "Mozzarella",
+          "quantity": 150,
+          "unit": "g"
+        },
+        {
+          "name": "Tomates fraîches",
+          "quantity": 3,
+          "unit": "pièce"
+        },
+        {
+          "name": "Eau",
+          "quantity": 200,
+          "unit": "ml"
+        }
+      ]
     }
-
-    GET http://localhost:8080/api/recipe/1/ingredients
-
-    Affiche :
-
-    [
-      {
-        "ingredientName": "Eau",
-        "quantity": 200,
-        "unit": "ml"
-      },
-      {
-        "ingredientName": "Lait",
-        "quantity": 150,
-        "unit": "ml"
-      }
-    ]
 
     */
 }
