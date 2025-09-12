@@ -23,7 +23,16 @@ export class RecipesComponent implements OnInit { // Note: Sans écrire "impleme
 
   // ========== Méthodes ==========
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Appel automatique au chargement
+    this.getRecipes();
+  }
+
+  // ----- Read -----
+
+  /**
+   * Récupérer toutes les recettes
+   */
+  getRecipes(): void {
     this.recipesService.getRecipes().subscribe({
       next: (res) => {
         this.recipes = res;

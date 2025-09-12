@@ -34,6 +34,9 @@ export class RegisterComponent {
 
   // ----- Create -----
 
+  /**
+   * Créer utilisateur
+   */
   addUser(): void {
     if (this.register_form.valid) {
       

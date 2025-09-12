@@ -42,7 +42,7 @@ export class AdminAddRecipeComponent implements OnInit {
 
   // ========== Méthodes ==========
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Appel automatique au chargement
     this.loadCategories();
   }
 

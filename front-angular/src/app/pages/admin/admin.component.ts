@@ -9,7 +9,7 @@ import { RecipesService } from '../../services/recipes.service';
   imports: [RouterLink, CommonModule],
   templateUrl: './admin.component.html'
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit { // Note: Sans écrire "implements OnInit", ça marche quand même
 
   // ========== Propriétés ==========
 
@@ -21,13 +21,39 @@ export class AdminComponent implements OnInit {
 
   // ========== Méthodes ==========
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Appel automatique au chargement
+    this.getRecipes();
+  }
+
+  // ----- Read -----
+
+  /**
+   * Récupérer toutes les recettes
+   */
+  getRecipes(): void {
     this.recipesService.getRecipes().subscribe({
       next: (res) => {
         this.recipes = res;
       },
       error: (err) => {
         console.error('Erreur chargement recettes :', err);
+      }
+    });
+  }
+
+  // ----- Delete -----
+
+  /**
+   * Supprimer une recette
+   */
+  deleteRecipe(id: number): void {
+    this.recipesService.deleteRecipe(id).subscribe({
+      next: () => {
+        // console.log('Livre supprimé avec succès');
+        this.recipes = this.recipes.filter(recipe => recipe.id !== id); // Mettre à jour la liste localement
+      },
+      error: (err) => {
+        console.error('Erreur suppression de recette :', err);
       }
     });
   }

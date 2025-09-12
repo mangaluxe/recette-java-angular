@@ -63,4 +63,13 @@ export class RecipesService {
     return this.http.post<Recipe>(this.apiUrl, recipe);
   }
 
+  // ----- Delete -----
+
+  /**
+   * Supprimer une recette
+   */
+  deleteRecipe(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
 }

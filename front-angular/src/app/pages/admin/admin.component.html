@@ -4,16 +4,16 @@
     <main>
 
         <h1 class="center">Liste de recettes</h1>
-        
+
         <p class="mt-5 center b"><a [routerLink]="['/admin-ajout-recette']">Ajouter</a></p>
 
         <div class="table-list-head">
             <div class="e">Titre</div>
             <div class="e">Catégorie</div>
-            <div class="e">Date de création</div>
+            <div class="e">Date</div>
             <div class="e">Auteur</div>
-            <div class="e">Modifier</div>
-            <div class="e">Supprimer</div>
+            <div class="e"><span class="no-mobile">Modifier</span></div>
+            <div class="e"><span class="no-mobile">Supprimer</span></div>
         </div>
         <ul class="table-list">
 
@@ -23,8 +23,8 @@
                     <div class="e">{{ recipe.categoryName }}</div>
                     <div class="e">{{ recipe.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
                     <div class="e">{{ recipe.authorName }}</div>
-                    <div class="e center">Modifier</div>
-                    <div class="e center">Supprimer</div>
+                    <div class="e center"><span class="no-mobile">Modifier</span></div>
+                    <div class="e center"><button (click)="deleteRecipe(recipe.id)" class="mini-btn btn-danger"><span class="icon-cross"></span></button></div>
                 </li>
             }
             @empty {
