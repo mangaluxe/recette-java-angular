@@ -7,7 +7,8 @@
 
     <div class="box-img">
         <!-- <img src="assets/img/1.jpg" alt="Choux à la crème"> -->
-        <img [src]="'assets/img/' + recipe?.image" [alt]="recipe?.title">
+        <!-- <img [src]="'assets/img/' + recipe?.image" [alt]="recipe?.title"> -->
+        <img [src]="recipe?.image ? 'http://localhost:8080/img/' + recipe?.image : 'assets/img/default.jpg'" [alt]="recipe?.title">
 
         <div class="box-img-icons">
             <!-- <div (click)="toggleFavorite()"><span class="icon-star-full" [ngClass]="{ 'active': isFavorite }"></span></div> -->

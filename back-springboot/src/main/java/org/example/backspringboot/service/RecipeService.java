@@ -32,7 +32,7 @@ public class RecipeService {
     private final UsersRepository usersRepository;
     private final IngredientRepository ingredientRepository; // 💡 Ajout pour gérer les ingrédients
 
-    private final Path uploadDir = Paths.get("uploads"); // Dossier externe, pas dans resources/static
+    private final String uploadDir = "uploads/";
 
 
     // ========== Constructeur ==========
@@ -199,30 +199,29 @@ public class RecipeService {
 
         // --- Upload image ---
         if (file != null && !file.isEmpty()) {
-            // Vérifier extension
+            // Vérifier extension :
             String originalFilename = file.getOriginalFilename();
             String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
-            if (!List.of("jpg", "jpeg", "png", "gif").contains(ext)) {
+            if (!List.of("jpg", "jpeg", "png", "gif", "webp").contains(ext)) {
                 throw new RuntimeException("Extension de fichier non supportée : " + ext);
             }
 
-            // Créer dossier si inexistant
-            Path uploadDir = Paths.get("uploads");
-            if (!Files.exists(uploadDir)) {
-                Files.createDirectories(uploadDir);
+            // Créer dossier si inexistant :
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
             }
 
-            // Nom basé sur slug
-            String uniqueFileName = uniqueSlug + "." + ext;
-//            String uniqueFileName = uniqueSlug + "_" + System.currentTimeMillis() + "." + ext; // Si on veut nom unique
-            Path dest = uploadDir.resolve(uniqueFileName);
+            // Nom de fichier basé sur le slug :
+            String uniqueFileName = Util.slugify(dto.getTitle()) + "." + ext;
+//            String uniqueFileName = Util.slugify(dto.getTitle()) + "_" + System.currentTimeMillis() + "." + ext; // Nom unique
+            Path dest = uploadPath.resolve(uniqueFileName);
             Files.copy(file.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
 
             recipe.setImage(uniqueFileName); // Sauvegarde juste le nom
         }
         else {
-            // Aucun fichier envoyé → optionnel
-            recipe.setImage("default.jpg"); // Ou mettre null
+            recipe.setImage(null);
         }
 
         // --- Gestion des ingrédients (existants ou nouveaux) ---

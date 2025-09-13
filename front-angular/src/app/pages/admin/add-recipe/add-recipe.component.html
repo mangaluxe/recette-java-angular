@@ -23,8 +23,8 @@
             <textarea id="description" formControlName="description" class="form-control auto-resize"></textarea>
 
             <label for="image">Image</label>
-            <input placeholder="Photo" formControlName="image" id="image" type="text" required>
-            <!-- <input type="file" id="image" (change)="onFileSelected($event)" class="mb-2"> -->
+            <!-- <input placeholder="Photo" formControlName="image" id="image" type="text" required> -->
+            <input type="file" id="image" (change)="onFileSelected($event)" class="mb-2">
 
             <div>Ingrédients</div>
             <div formArrayName="ingredients" id="ingredients-container">

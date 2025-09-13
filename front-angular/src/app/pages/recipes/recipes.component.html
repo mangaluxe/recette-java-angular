@@ -13,7 +13,9 @@
     
                 <div class="recipe-box">
                     <div class="recipe-box-in">
-                        <a [routerLink]="['/recette', recipe.id]" class="img"><img src="assets/img/{{ recipe.image }}" alt="{{ recipe.title }}"></a>
+                        <!-- <a [routerLink]="['/recette', recipe.id]" class="img"><img src="assets/img/{{ recipe.image }}" alt="{{ recipe.title }}"></a> -->
+                        <a [routerLink]="['/recette', recipe.id]" class="img"><img [src]="recipe.image ? 'http://localhost:8080/img/' + recipe.image : 'assets/img/default.jpg'" 
+                            [alt]="recipe.title"></a>
                         <div class="txt">
                             <h2>{{ recipe.title }}</h2>
                             <p>{{ recipe.description }}</p>

@@ -21,6 +21,8 @@ export class AddRecipeComponent implements OnInit {
   recipe_form: FormGroup; // Formulaire pour l'ajout de recette
   categories: any[] = []; // Liste des catégories récupérées depuis le backend
 
+  selectedFile: File | null = null; // Upload
+
 
   // ========== Constructeur ==========
 
@@ -80,11 +82,40 @@ export class AddRecipeComponent implements OnInit {
     }
   }
 
+
   // ----- Create -----
 
+  /**
+   * Ajouter recette (sans upload)
+   */
+  // addRecipe(): void {
+  //   if (this.recipe_form.valid) {
+  //     this.recipesService.createRecipe(this.recipe_form.value).subscribe({
+  //       next: (res) => {
+  //         console.log('Recette ajoutée', res);
+  //         this.router.navigate(['/recettes']);
+  //       },
+  //       error: (err) => console.error(err)
+  //     });
+  //   }
+  // }
+
+  /**
+   * Ajouter recette (avec upload)
+   */
   addRecipe(): void {
     if (this.recipe_form.valid) {
-      this.recipesService.createRecipe(this.recipe_form.value).subscribe({
+      const formData = new FormData();
+      
+      // Ajouter les données de la recette (DTO)
+      formData.append('recipe', new Blob([JSON.stringify(this.recipe_form.value)], { type: 'application/json' }));
+      
+      // Ajouter le fichier si présent
+      if (this.selectedFile) {
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+      }
+  
+      this.recipesService.createRecipe(formData).subscribe({
         next: (res) => {
           console.log('Recette ajoutée', res);
           this.router.navigate(['/recettes']);
@@ -94,6 +125,14 @@ export class AddRecipeComponent implements OnInit {
     }
   }
 
+
   // ----- Upload -----
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }  
 
 }

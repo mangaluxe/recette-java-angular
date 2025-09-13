@@ -64,10 +64,17 @@ export class RecipesService {
   // ----- Create -----
 
   /**
-   * Créer une recette
+   * Créer une recette (sans upload)
    */
-  createRecipe(recipe: any): Observable<Recipe> {
-    return this.http.post<Recipe>(this.apiUrl, recipe);
+  // createRecipe(recipe: any): Observable<Recipe> {
+  //   return this.http.post<Recipe>(this.apiUrl, recipe);
+  // }
+
+  /**
+   * Créer une recette (avec upload)
+   */
+  createRecipe(data: FormData) {
+    return this.http.post<any>(this.apiUrl, data);
   }
 
   // ----- Delete -----

@@ -113,41 +113,7 @@ public class RecipeController {
     Envoyer la requête en cliquant sur Send.
 
 
-    1️⃣ Créer une recette dans Endpoint :
-
-    POST http://localhost:8080/api/recipe
-    Content-Type: application/json
-
-    {
-      "title": "Pizza Margherita",
-      "description": "Pizza classique italienne avec tomate, mozzarella et basilic",
-      "instructions": "Préchauffer le four, étaler la pâte, ajouter garniture...\nMettre la pizza dans le four.\nAttendre.\nSortir.",
-      "prepTime": 15,
-      "cookTime": 20,
-      "servings": 2,
-      "image": "pizza.jpg",
-      "allowComment": true,
-      "categoryId": 1,
-      "userId": 1,
-      "ingredients": [
-        {
-           "ingredientName": "Mozzarella",
-           "unit": "g",
-           "quantity": 150
-         },
-        {
-          "ingredientName": "Tomates fraîches",
-          "unit": "pièce",
-          "quantity": 3
-        },
-        {
-          "ingredientId": 1,
-          "quantity": 200
-        }
-      ]
-    }
-
-    2️⃣ Récupérer la recette avec ses ingrédients
+    2️⃣ Récupérer la recette avec ses ingrédients dans Endpoint :
 
     GET http://localhost:8080/api/recipe/1
 
