@@ -1,3 +1,7 @@
+// src/app/pages/recipe/recipe.component.ts :
+
+// ng generate component pages/recipe
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -24,7 +28,13 @@ export class RecipeComponent implements OnInit {
 
   // ========== Méthodes ==========
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Appel automatique au chargement
+    this.getRecipeById();
+  }
+
+  // ----- Read -----
+
+  getRecipeById(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.recipesService.getRecipeById(id).subscribe({
       next: (res) => {

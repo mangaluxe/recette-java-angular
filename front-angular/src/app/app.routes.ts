@@ -9,8 +9,9 @@ import { UserComponent } from './pages/user/user.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { RecipeComponent } from './pages/recipe/recipe.component';
-import { AdminComponent } from './pages/admin/admin.component';
-import { AdminAddRecipeComponent } from './pages/admin-add-recipe/admin-add-recipe.component';
+
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { AddRecipeComponent } from './pages/admin/add-recipe/add-recipe.component';
 
 
 export const routes: Routes = [
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'inscription', component: RegisterComponent }, // http://localhost:4200/inscription
   { path: 'recettes', component: RecipesComponent }, // http://localhost:4200/recettes
   { path: 'recette/:id', component: RecipeComponent }, // http://localhost:4200/recette/1
-  { path: 'admin', component: AdminComponent }, // http://localhost:4200/admin
-  { path: 'admin-ajout-recette', component: AdminAddRecipeComponent } // http://localhost:4200/admin-ajout-recette
+
+  { path: 'admin', component: DashboardComponent }, // http://localhost:4200/admin
+  { path: 'admin/ajout-recette', component: AddRecipeComponent } // http://localhost:4200/admin-ajout-recette
 ];

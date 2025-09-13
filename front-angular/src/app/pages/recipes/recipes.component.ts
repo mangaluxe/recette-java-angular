@@ -1,5 +1,7 @@
 // src/app/pages/recipes/recipes.component.ts :
 
+// ng generate component pages/recipes
+
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../../models/recipe';
 import { RecipesService } from '../../services/recipes.service';

@@ -1,15 +1,19 @@
+// src/app/pages/admin/dashboard.component.ts :
+
+// ng generate component pages/admin/dashboard
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Recipe } from '../../models/recipe';
-import { RecipesService } from '../../services/recipes.service';
+import { Recipe } from '../../../models/recipe';
+import { RecipesService } from '../../../services/recipes.service';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-dashboard',
   imports: [RouterLink, CommonModule],
-  templateUrl: './admin.component.html'
+  templateUrl: './dashboard.component.html'
 })
-export class AdminComponent implements OnInit { // Note: Sans écrire "implements OnInit", ça marche quand même
+export class DashboardComponent implements OnInit { // Note: Sans écrire "implements OnInit", ça marche quand même
 
   // ========== Propriétés ==========
 

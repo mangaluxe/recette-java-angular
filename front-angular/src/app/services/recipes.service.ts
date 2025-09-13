@@ -7,6 +7,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Recipe } from '../models/recipe';
 
+// export interface RecipeIngredient {
+//   name: string;
+//   quantity: number;
+//   unit: string;
+// }
 // export interface Recipe { // On peut mettre le model directement ici ou dans un fichier séparé : src/app/models/recipe.ts
 //   id: number;
 //   title: string;
@@ -15,6 +20,8 @@ import { Recipe } from '../models/recipe';
 //   cookTime: number;
 //   servings: number;
 //   image?: string;
+//   instructions: string;
+//   ingredients: RecipeIngredient[]; // <-- Liste des ingrédients
 //   allowComment: boolean;
 //   createdAt: Date;
 //   categoryName: string;

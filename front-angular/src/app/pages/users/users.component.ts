@@ -1,5 +1,7 @@
 // src/app/pages/users/users.component.ts :
 
+// ng generate component pages/users
+
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../models/user';

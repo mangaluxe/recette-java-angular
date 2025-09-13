@@ -1,8 +1,16 @@
+# ========== Recipe ==========
+
 ## 1️⃣ ----- Créer un modèle dans Angular -----
 
 src/app/models/user.ts :
 
 ```ts
+export interface RecipeIngredient {
+  name: string;
+  quantity: number;
+  unit: string;
+}
+
 export interface Recipe {
   id: number;
   title: string;
@@ -11,6 +19,8 @@ export interface Recipe {
   cookTime: number;
   servings: number;
   image?: string;
+  instructions: string;
+  ingredients: RecipeIngredient[]; // <-- Liste des ingrédients
   allowComment: boolean;
   createdAt: Date;
   categoryName: string;
@@ -33,6 +43,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Recipe } from '../models/recipe';
 
+// export interface RecipeIngredient {
+//   name: string;
+//   quantity: number;
+//   unit: string;
+// }
 // export interface Recipe { // On peut mettre le model directement ici ou dans un fichier séparé : src/app/models/recipe.ts
 //   id: number;
 //   title: string;
@@ -41,6 +56,8 @@ import { Recipe } from '../models/recipe';
 //   cookTime: number;
 //   servings: number;
 //   image?: string;
+//   instructions: string;
+//   ingredients: RecipeIngredient[]; // <-- Liste des ingrédients
 //   allowComment: boolean;
 //   createdAt: Date;
 //   categoryName: string;
@@ -88,11 +105,8 @@ export class RecipesService {
 ng generate component pages/recipes
 
 ng generate component pages/recipe
-
-ng generate component pages/admin
-
-ng generate component pages/admin-add-recipe
 ```
+
 
 Exemple dans RecipesComponent : src/app/pages/recipes/recipes.component.ts :
 
@@ -102,7 +116,7 @@ Exemple dans RecipesComponent : src/app/pages/recipes/recipes.component.ts :
   imports: [RouterLink, CommonModule],
   templateUrl: './recipes.component.html'
 })
-export class RecipesComponent {
+export class RecipesComponent implements OnInit { // Note: Sans écrire "implements OnInit", ça marche quand même
 
   // ========== Propriétés ==========
 
@@ -114,7 +128,16 @@ export class RecipesComponent {
 
   // ========== Méthodes ==========
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Appel automatique au chargement
+    this.getRecipes();
+  }
+
+  // ----- Read -----
+
+  /**
+   * Récupérer toutes les recettes
+   */
+  getRecipes(): void {
     this.recipesService.getRecipes().subscribe({
       next: (res) => {
         this.recipes = res;
@@ -127,6 +150,7 @@ export class RecipesComponent {
 
 }
 ```
+
 
 src/app/pages/recipes/recipes.component.html :
 
@@ -163,6 +187,7 @@ src/app/pages/recipes/recipes.component.html :
 </div>
 ```
 
+
 src/app/app.routes.ts :
 
 ```ts
@@ -174,10 +199,10 @@ export const routes: Routes = [
   { path: 'utilisateur/:id', component: UserComponent }, // http://localhost:4200/utilisateur/1
   { path: 'inscription', component: RegisterComponent }, // http://localhost:4200/inscription
   { path: 'recettes', component: RecipesComponent }, // http://localhost:4200/recettes
-  { path: 'recette/:id', component: RecipeComponent }, // http://localhost:4200/recette/1
-  { path: 'admin', component: AdminComponent } // http://localhost:4200/admin
+  { path: 'recette/:id', component: RecipeComponent } // http://localhost:4200/recette/1
 ];
 ```
+
 
 src/app/partials/header/header.component.html :
 
@@ -186,6 +211,7 @@ Ajouter lien :
 ```html
 <li><a routerLink="/recettes">Recettes</a></li>
 ```
+
 
 src/app/pages/recipe/recipe.component.ts :
 
@@ -210,7 +236,13 @@ export class RecipeComponent implements OnInit {
 
   // ========== Méthodes ==========
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Appel automatique au chargement
+    this.getRecipeById();
+  }
+
+  // ----- Read -----
+
+  getRecipeById(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.recipesService.getRecipeById(id).subscribe({
       next: (res) => {

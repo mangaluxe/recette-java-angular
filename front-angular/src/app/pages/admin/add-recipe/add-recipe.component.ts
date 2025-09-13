@@ -1,16 +1,20 @@
+// src/app/pages/admin/add-recipe.component.ts :
+
+// ng generate component pages/admin/add-recipe
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RecipesService } from '../../services/recipes.service';
+import { RecipesService } from '../../../services/recipes.service';
 import { Router, RouterLink } from '@angular/router';
-import { CategoriesService } from '../../services/categories.service';
+import { CategoriesService } from '../../../services/categories.service';
 
 @Component({
-  selector: 'app-admin-add-recipe',
+  selector: 'app-add-recipe',
   imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './admin-add-recipe.component.html'
+  templateUrl: './add-recipe.component.html'
 })
-export class AdminAddRecipeComponent implements OnInit {
+export class AddRecipeComponent implements OnInit {
 
   // ========== Propriétés ==========
 
@@ -91,5 +95,5 @@ export class AdminAddRecipeComponent implements OnInit {
   }
 
   // ----- Upload -----
-  
+
 }

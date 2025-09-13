@@ -1,5 +1,7 @@
 // src/app/pages/register/register.component.ts :
 
+// ng generate component pages/register
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';

@@ -1,5 +1,7 @@
 // src/app/pages/user/user.component.ts :
 
+// ng generate component pages/user
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -31,12 +33,15 @@ export class UserComponent {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       if (id) {
-        this.getUser(id);
+        this.getUserById(id);
       }
     });
   }
 
-  getUser(id: number): void {
+  /**
+   * Récupérer un utilisateur par id
+   */
+  getUserById(id: number): void {
     this.usersService.getUserById(id).subscribe((data: User) => {
       this.user = data;
     });

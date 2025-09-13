@@ -1,3 +1,5 @@
+# ========== User ==========
+
 ## 1️⃣ ----- Activer CORS dans Spring Boot : -----
 
 Ajouter ce fichier config/WebConfig.java :
@@ -56,8 +58,8 @@ import { User } from '../models/user';
 //   roleName: string;
 // }
 
-@Injectable({
-  providedIn: 'root'
+@Injectable({ // @Injectable : transforme la classe en service Angular injectable partout
+  providedIn: 'root' // Veut dire que ce service est singleton et disponible partout dans l’app sans avoir besoin de le déclarer ailleurs
 })
 export class UsersService {
 
@@ -93,10 +95,15 @@ export class UsersService {
   
   // ----- Create -----
 
+  // addUser(user: any): Observable<any> {
+  //   return this.http.post<any>(this.apiUrl, user);
+  // }
+
   /**
    * Créer un utilisateur
    */
-  createUser(user: User): Observable<User> {
+  // addUser(user: User): Observable<User> {
+  addUser(user: Partial<User>): Observable<User> { // Partial<User> : envoyer un objet partiel (ex. sans id, sans createdAt qui seront générés par le backend)
     return this.http.post<User>(this.apiUrl, user);
   }
 
@@ -127,17 +134,15 @@ export const appConfig: ApplicationConfig = {
 ng generate component pages/users
 
 ng generate component pages/user
-
-ng generate component pages/register
 ```
+
 
 Exemple dans UsersComponent : src/app/pages/users/users.component.ts :
 
 ```ts
 @Component({
   selector: 'app-users',
-  // imports: [DatePipe], // 👈 DatePipe pour formater les dates
-  imports: [CommonModule], // 👈 CommonModule pour éviter d’importer chaque pipe un par un (date, majuscule)
+  imports: [RouterLink, CommonModule], // 👈 CommonModule pour éviter d’importer chaque pipe un par un (DatePipe, UpperCasePipe...), RouterLink pour liens
   templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit {
@@ -145,7 +150,7 @@ export class UsersComponent implements OnInit {
   // ========== Propriétés ==========
 
   // users: any[] = []; // Sans modele User
-  users: User[] = [];
+  users: User[] = []; // Retourne un tableau d'utilisateurs, par défaut un tableau vide
 
   // ========== Constructeur ==========
 
@@ -153,7 +158,16 @@ export class UsersComponent implements OnInit {
 
   // ========== Méthodes ==========
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Appel automatique au chargement
+    this.getUsers();
+  }
+
+  // ----- Read -----
+
+  /**
+   * Récupérer tous les utilisateurs
+   */
+  getUsers(): void {
     this.usersService.getUsers().subscribe({
       next: (data) => this.users = data,
       error: (err) => console.error('Erreur chargement utilisateurs:', err)
@@ -162,6 +176,7 @@ export class UsersComponent implements OnInit {
 
 }
 ```
+
 
 src/app/pages/users/users.component.html :
 
@@ -188,7 +203,7 @@ src/app/pages/users/users.component.html :
                 </li>
             }
             @empty {
-                <li>Aucun livre (ou vous n'avez pas lancé l'application back-end)</li>
+                <li>Aucun utilisateur (ou vous n'avez pas lancé l'application back-end)</li>
             }
 
         </ul>
@@ -196,6 +211,7 @@ src/app/pages/users/users.component.html :
     </main>
 </div>
 ```
+
 
 Exemple dans UserComponent : src/app/pages/user/user.component.ts :
 
@@ -206,7 +222,7 @@ Exemple dans UserComponent : src/app/pages/user/user.component.ts :
   templateUrl: './user.component.html'
 })
 export class UserComponent {
-  
+
   // ========== Propriétés ==========
 
   user?: User; // Retourne utilisateur ou undefined
@@ -225,12 +241,15 @@ export class UserComponent {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       if (id) {
-        this.getUser(id);
+        this.getUserById(id);
       }
     });
   }
 
-  getUser(id: number): void {
+  /**
+   * Récupérer un utilisateur par id
+   */
+  getUserById(id: number): void {
     this.usersService.getUserById(id).subscribe((data: User) => {
       this.user = data;
     });
@@ -239,12 +258,13 @@ export class UserComponent {
 }
 ```
 
+
 src/app/pages/user/user.component.html :
 ```html
 <div class="container">
     <main>
         @if (user) {
-            <h1 class="text-center">{{ user.username }}</h1>
+            <h1 class="center">{{ user.username }}</h1>
             <p>Email : {{ user.email }}</p>
             <p>Date de création : {{ user.createdAt | date:'dd/MM/yyyy HH:mm'  }}</p>
             <p>Rôle : {{ user.roleName }}</p>
@@ -256,15 +276,17 @@ src/app/pages/user/user.component.html :
 </div>
 ```
 
+
 src/app/app.routes.ts :
 
 ```ts
 export const routes: Routes = [
-    {path: '', component: HomeComponent}, // http://localhost:4200/
-    {path: 'utilisateurs', component: UsersComponent}, // http://localhost:4200/utilisateurs
-    { path: 'utilisateur/:id', component: UserComponent } // http://localhost:4200/utilisateur/1
+  {path: '', component: HomeComponent}, // http://localhost:4200/
+  {path: 'utilisateurs', component: UsersComponent}, // http://localhost:4200/utilisateurs
+  { path: 'utilisateur/:id', component: UserComponent } // http://localhost:4200/utilisateur/1
 ];
 ```
+
 
 src/app/partials/header/header.component.html :
 
