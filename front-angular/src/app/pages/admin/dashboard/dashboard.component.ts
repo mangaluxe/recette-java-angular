@@ -1,4 +1,4 @@
-// src/app/pages/admin/dashboard.component.ts :
+// src/app/pages/admin/dashboard/dashboard.component.ts :
 
 // ng generate component pages/admin/dashboard
 

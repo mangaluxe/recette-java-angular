@@ -67,7 +67,8 @@ ul.ingredient-box {
 .mt-2 {margin-top: 20px !important;}
 .mt-5 {margin-top: 50px !important;}
 .mb-2 {margin-bottom: 20px !important;}
-.mr-1 {margin-right: 10px;}
+.mr-1 {margin-right: 10px !important;}
+.pd-1 {padding: 5px !important;}
 
 .inline-block {
     display: inline-block;

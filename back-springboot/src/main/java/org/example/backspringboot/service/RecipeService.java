@@ -94,6 +94,7 @@ public class RecipeService {
                             r.getImage(),
                             r.isAllowComment(),
                             r.getCreatedAt(),
+                            r.getCategory().getId(),
                             r.getCategory().getName(),
                             r.getUser().getUsername(),
                             ingredients
@@ -150,6 +151,7 @@ public class RecipeService {
                 r.getImage(),
                 r.isAllowComment(),
                 r.getCreatedAt(),
+                r.getCategory().getId(),
                 r.getCategory().getName(),
                 r.getUser().getUsername(),
                 ingredients
@@ -288,6 +290,7 @@ public class RecipeService {
                 saved.getImage(),
                 saved.isAllowComment(),
                 saved.getCreatedAt(),
+                saved.getCategory().getId(),
                 saved.getCategory().getName(),
                 saved.getUser().getUsername(),
                 ingredientDtoList
@@ -300,7 +303,7 @@ public class RecipeService {
     /**
      * Modifier une recette
      */
-    public RecipeDtoSend updateRecipe(Long id, RecipeDtoReceive dto) {
+    public RecipeDtoSend updateRecipe(Long id, RecipeDtoReceive dto, MultipartFile file) throws IOException {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recette non trouvée"));
 
@@ -315,12 +318,32 @@ public class RecipeService {
         recipe.setPrepTime(dto.getPrepTime());
         recipe.setCookTime(dto.getCookTime());
         recipe.setServings(dto.getServings());
-        recipe.setImage(dto.getImage());
+//        recipe.setImage(dto.getImage()); // On fait setImage plus bas en cas d'upload
         recipe.setAllowComment(dto.isAllowComment());
         recipe.setCategory(category);
         recipe.setUser(user);
 
-        // Réinitialiser les ingrédients et les recréer
+        // --- Upload image (si nouveau fichier) ---
+        if (file != null && !file.isEmpty()) {
+            String originalFilename = file.getOriginalFilename();
+            String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
+            if (!List.of("jpg", "jpeg", "png", "gif", "webp").contains(ext)) {
+                throw new RuntimeException("Extension de fichier non supportée : " + ext);
+            }
+
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
+
+            String uniqueFileName = Util.slugify(dto.getTitle()) + "." + ext;
+            Path dest = uploadPath.resolve(uniqueFileName);
+            Files.copy(file.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
+
+            recipe.setImage(uniqueFileName);
+        }
+        // Si pas de nouveau fichier, on conserve l'image existante
+        // sinon tu peux mettre recipe.setImage(null) si tu veux supprimer
+
+        // --- Gestion des ingrédients ---
         recipe.getRecipeIngredients().clear();
         if (dto.getIngredients() != null) {
             for (RecipeIngredientDtoReceive riDto : dto.getIngredients()) {
@@ -329,12 +352,14 @@ public class RecipeService {
                 if (riDto.getIngredientId() != null) {
                     ingredient = ingredientRepository.findById(riDto.getIngredientId())
                             .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
-                } else if (riDto.getIngredientName() != null && riDto.getUnit() != null) {
+                }
+                else if (riDto.getIngredientName() != null && riDto.getUnit() != null) {
                     ingredient = new Ingredient();
                     ingredient.setName(riDto.getIngredientName());
                     ingredient.setUnit(riDto.getUnit());
                     ingredient = ingredientRepository.save(ingredient);
-                } else {
+                }
+                else {
                     throw new RuntimeException("Un ingrédient doit avoir soit un ID, soit un nom+unité");
                 }
 
@@ -368,6 +393,7 @@ public class RecipeService {
                 updated.getImage(),
                 updated.isAllowComment(),
                 updated.getCreatedAt(),
+                updated.getCategory().getId(),
                 updated.getCategory().getName(),
                 updated.getUser().getUsername(),
                 ingredientDtoList

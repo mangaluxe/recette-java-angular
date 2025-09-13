@@ -77,6 +77,15 @@ export class RecipesService {
     return this.http.post<any>(this.apiUrl, data);
   }
 
+  // ----- Update -----
+
+  /**
+   * Modifier une recette (avec upload)
+   */
+  updateRecipe(id: number, formData: FormData): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, formData);
+  }
+
   // ----- Delete -----
 
   /**

@@ -18,6 +18,7 @@ public class RecipeDtoSend {
     private boolean allowComment;
     private LocalDateTime createdAt;
 
+    private Long categoryId; // Utile pour éditer une recette
     private String categoryName;
     private String authorName;
 
@@ -31,7 +32,7 @@ public class RecipeDtoSend {
     public RecipeDtoSend(Long id, String title, String description, String instructions,
                          int prepTime, int cookTime, int servings,
                          String image, boolean allowComment, LocalDateTime createdAt,
-                         String categoryName, String authorName,
+                         Long categoryId, String categoryName, String authorName,
                          List<RecipeIngredientDtoSend> ingredients) {
         this.id = id;
         this.title = title;
@@ -43,6 +44,7 @@ public class RecipeDtoSend {
         this.image = image;
         this.allowComment = allowComment;
         this.createdAt = createdAt;
+        this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.authorName = authorName;
 
@@ -81,6 +83,9 @@ public class RecipeDtoSend {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public Long getCategoryId() { return categoryId; }
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
 
     public String getCategoryName() { return categoryName; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }

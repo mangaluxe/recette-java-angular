@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 10 sep. 2025 à 21:21
+-- Généré le : sam. 13 sep. 2025 à 18:42
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -63,7 +63,34 @@ INSERT INTO `ingredient` (`id`, `name`, `unit`) VALUES
 (2, 'Lait', 'ml'),
 (3, 'Farine', 'g'),
 (4, 'Sucre', 'g'),
-(5, 'Sel', 'g');
+(5, 'Sel', 'g'),
+(6, 'Mozzarella', 'g'),
+(7, 'Tomates fraîches', 'pièce'),
+(8, 'Mozzarella', 'g'),
+(9, 'Tomates fraîches', 'pièce'),
+(10, 'Mozzarella', 'g'),
+(11, 'Tomates fraîches', 'pièce'),
+(12, 'Tomate', 'g'),
+(13, 'Tomate', 'g'),
+(14, 'Eau', 'ml'),
+(15, 'Sucre', 'g'),
+(16, 'Gomme', 'g'),
+(17, 'Farine', 'g'),
+(18, 'Citron', 'pc'),
+(19, 'Eau', 'ml'),
+(20, 'Eau', 'ml'),
+(21, 'Sucre', 'g'),
+(22, 'Eau', 'ml'),
+(23, 'Sucre', 'g'),
+(24, 'Cacao', 'g'),
+(25, 'Mozzarella', 'g'),
+(26, 'Tomates fraîches', 'pièce'),
+(27, 'Mozzarella', 'g'),
+(28, 'Tomates fraîches', 'pièce'),
+(29, 'Mozzarella', 'g'),
+(30, 'Tomates fraîches', 'pièce'),
+(31, 'Eau', 'ml'),
+(32, 'Sucre', 'g');
 
 -- --------------------------------------------------------
 
@@ -92,9 +119,14 @@ CREATE TABLE `recipe` (
 --
 
 INSERT INTO `recipe` (`id`, `allow_comment`, `cook_time`, `created_at`, `description`, `image`, `instructions`, `prep_time`, `servings`, `slug`, `title`, `category_id`, `user_id`) VALUES
-(1, b'1', 20, '2025-09-02 18:55:17.000000', 'Pizza classique italienne', 'pizza.jpg', 'Préchauffer le four, étaler la pâte, ajouter garniture...', 15, 2, 'pizza-margherita', 'Pizza Margherita', 1, 1),
-(2, b'1', 20, '2025-09-02 19:15:16.000000', 'Tarte pas bon', 'tarte.jpg', 'Préchauffer le four...', 15, 2, 'tarte-au-sucre', 'Tarte au sucre', 1, 1),
-(3, b'1', 20, '2025-09-10 21:10:09.000000', 'Pizza...', 'pizza.jpg', 'Préchauffer .... la pâte, ajouter garniture...', 15, 4, 'pizza-margherita-1', 'Pizza Margherita', 1, 1);
+(1, b'1', 20, '2025-09-02 18:55:17.000000', 'Pizza classique italienne', '1.jpg', 'Préchauffer le four, étaler la pâte, ajouter garniture...\r\nMettre la pizza dans le four.\r\nAttendre.\r\nSortir.', 15, 2, 'pizza-margherita', 'Pizza Margherita', 1, 1),
+(4, b'1', 20, '2025-09-11 14:54:15.000000', 'Pizza classique italienne avec tomate, mozzarella et basilic', '2.jpg', '1. Préparez la pâte.\n2. Ajoutez la sauce tomate.\n3. Disposez la mozzarella et le basilic.\n4. Faites cuire au four.', 15, 2, 'pizza-margherita-2', 'Pizza Margherita', 1, 1),
+(12, b'1', 33, '2025-09-11 17:27:41.000000', 'Super bonbon à faire.', '3.jpg', 'Faire sauter le riz.\nAttendre.\nManger.', 33, 6, 'bonbon-au-chocolat', 'Bonbon au chocolat', 3, 1),
+(13, b'1', 2, '2025-09-11 17:35:05.000000', 'Boisson au citron pas bon.', '1.jpg', 'Presser le citron.\nSecouer.\nBuvez.', 2, 200, 'boisson-au-citron', 'Boisson au citron', 4, 1),
+(14, b'1', 44, '2025-09-11 17:36:17.000000', 'Cacao au lait très bon.', '2.jpg', 'Secouer.\nAttendre.\nBuvez.', 44, 11, 'cacao-au-lait', 'Cacao au lait', 4, 1),
+(15, b'1', 10, '2025-09-13 16:50:50.000000', 'Boisson pour toi.', '5.jpg', 'Mettre le cacao dans l\'eau.\nAjouter le sucre.\nMélanger le tout.\nMettre au four 10 minutes.', 5, 1, 'cacao-au-lait-1', 'Cacao au lait', 4, 1),
+(16, b'1', 20, '2025-09-13 17:51:44.000000', 'Pizza classique italienne', '', 'Préparer...\nCuire...\nServir.', 15, 2, 'pizza-margherita-1', 'Pizza Margherita', 1, 1),
+(18, b'1', 20, '2025-09-13 18:14:52.000000', 'Pizza classique italienne', 'pizza-margherita.jpg', 'Préparer...\nCuire...\nServir.', 15, 2, 'pizza-margherita-4', 'Pizza Margherita', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -116,8 +148,24 @@ CREATE TABLE `recipe_ingredient` (
 INSERT INTO `recipe_ingredient` (`id`, `quantity`, `ingredient_id`, `recipe_id`) VALUES
 (1, 200, 1, 1),
 (2, 150, 2, 1),
-(3, 200, 3, 2),
-(4, 250, 4, 2);
+(5, 200, 1, 4),
+(6, 150, 2, 4),
+(21, 200, 15, 12),
+(22, 12, 16, 12),
+(23, 600, 17, 12),
+(24, 1, 18, 13),
+(25, 200, 19, 13),
+(26, 200, 20, 14),
+(27, 20, 21, 14),
+(28, 22, 22, 15),
+(29, 33, 23, 15),
+(30, 100, 24, 15),
+(31, 150, 25, 16),
+(32, 3, 26, 16),
+(33, 200, 1, 16),
+(37, 150, 29, 18),
+(38, 3, 30, 18),
+(39, 200, 1, 18);
 
 -- --------------------------------------------------------
 
@@ -163,7 +211,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `created_at`, `email`, `password`, `username`, `role_id`) VALUES
 (1, '2025-09-02 12:50:10.000000', 'adm@email.fr', '$2a$10$Sc9iO2q1K0wMGRa3zZNyberIKZNJAmMagJuCY90j6lj2UU4N4aSye', 'admin', 5),
 (2, '2025-09-02 12:52:10.000000', 'modo@email.fr', '$2a$10$Sc9iO2q1K0wMGRa3zZNyberIKZNJAmMagJuCY90j6lj2UU4N4aSye', 'modo', 3),
-(3, '2025-09-03 16:52:51.000000', 'anim@email.com', '$2a$12$fLJYLo8Nej6kCsMME5Lq5.AkBc.4R0cczvqPQ8Nlqbb4QFLq2lnBS', 'Anim', 2);
+(3, '2025-09-03 16:52:51.000000', 'anim@email.com', '$2a$12$fLJYLo8Nej6kCsMME5Lq5.AkBc.4R0cczvqPQ8Nlqbb4QFLq2lnBS', 'Anim', 2),
+(8, '2025-09-09 22:58:22.000000', '1010@ss.ss', '$2a$10$YP/1Cvwn1cg6hxVKyKkfZOAtZ9TEj8laGDql6HgYA0hkaOx43ADeq', '1010', 1);
 
 --
 -- Index pour les tables déchargées
@@ -226,19 +275,19 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT pour la table `ingredient`
 --
 ALTER TABLE `ingredient`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT pour la table `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `recipe_ingredient`
 --
 ALTER TABLE `recipe_ingredient`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT pour la table `role`

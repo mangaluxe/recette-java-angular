@@ -33,11 +33,18 @@ public class RecipeController {
 
     // ----- Read -----
 
+    /**
+     * Afficher toutes les recettes
+     */
     @GetMapping // GET http://localhost:8080/api/recipe
     public List<RecipeDtoSend> getAllRecipes() {
         return recipeService.getAllRecipes();
     }
 
+
+    /**
+     * Afficher une recette
+     */
     @GetMapping("/{id}") // GET http://localhost:8080/api/recipe/{id}
     public ResponseEntity<RecipeDtoSend> getRecipeById(@PathVariable Long id) {
         return ResponseEntity.ok(recipeService.getRecipeById(id));
@@ -46,11 +53,14 @@ public class RecipeController {
 
     // ----- Create -----
 
-//    @PostMapping
+//    @PostMapping // POST http://localhost:8080/api/recipe
 //    public ResponseEntity<RecipeDtoSend> createRecipe(@RequestBody RecipeDtoReceive dto) {
 //        return new ResponseEntity<>(recipeService.createRecipe(dto), HttpStatus.CREATED);
 //    }
 
+    /**
+     * Créer une recette
+     */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // POST http://localhost:8080/api/recipe
     public RecipeDtoSend createRecipe(
             @RequestPart("recipe") String recipeJson,
@@ -63,14 +73,29 @@ public class RecipeController {
 
     // ----- Update -----
 
-    @PutMapping("/{id}") // PUT http://localhost:8080/api/recipe/{id}
-    public ResponseEntity<RecipeDtoSend> updateRecipe(@PathVariable Long id, @RequestBody RecipeDtoReceive dto) {
-        return ResponseEntity.ok(recipeService.updateRecipe(id, dto));
-    }
+//    @PutMapping("/{id}") // PUT http://localhost:8080/api/recipe/{id}
+//    public ResponseEntity<RecipeDtoSend> updateRecipe(@PathVariable Long id, @RequestBody RecipeDtoReceive dto) {
+//        return ResponseEntity.ok(recipeService.updateRecipe(id, dto));
+//    }
 
+    /**
+     * Modifier une recette
+     */
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // PUT http://localhost:8080/api/recipe/{id}
+    public RecipeDtoSend updateRecipe(
+            @PathVariable Long id,
+            @RequestPart("recipe") String recipeJson,
+            @RequestPart(value = "file", required = false) MultipartFile file
+    ) throws IOException {
+        RecipeDtoReceive dto = new ObjectMapper().readValue(recipeJson, RecipeDtoReceive.class);
+        return recipeService.updateRecipe(id, dto, file);
+    }
 
     // ----- Delete -----
 
+    /**
+     * Supprimer une recette
+     */
     @DeleteMapping("/{id}") // DELETE http://localhost:8080/api/recipe/{id}
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
@@ -150,6 +175,13 @@ public class RecipeController {
         }
       ]
     }
+
+
+    3️⃣ Modifier une recette dans Postman :
+
+    Même chose que pour ajouter, mais faire :
+
+    PUT http://localhost:8080/api/recipe/1
 
     */
 }

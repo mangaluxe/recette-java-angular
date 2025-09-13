@@ -1,4 +1,4 @@
-<!-- src/app/pages/admin/dashboard.component.html : : -->
+<!-- src/app/pages/admin/dashboard/dashboard.component.html : : -->
 
 <div class="container">
     <main>
@@ -23,7 +23,7 @@
                     <div class="e">{{ recipe.categoryName }}</div>
                     <div class="e">{{ recipe.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
                     <div class="e">{{ recipe.authorName }}</div>
-                    <div class="e center"><span class="no-mobile">Modifier</span></div>
+                    <div class="e center pd-1"><a [routerLink]="['/admin/edit-recette', recipe.id]" class="mini-btn btn-warning"><span class="icon-pencil"></span></a></div>
                     <div class="e center"><button (click)="deleteRecipe(recipe.id)" class="mini-btn btn-danger"><span class="icon-cross"></span></button></div>
                 </li>
             }

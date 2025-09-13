@@ -22,12 +22,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true); // Autorise les cookies, si nécessaire
     }
 
-    // ----- Upload -----
+    // ----- Gérer dossier d'upload -----
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
-                .addResourceLocations("file:uploads/"); // Dossier local "uploads"
+                .addResourceLocations("file:uploads/"); // Dossier local "uploads". Les fichiers uploadés seront toujours placés dans le projet back
     }
 
 }

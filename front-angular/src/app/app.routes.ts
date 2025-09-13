@@ -12,6 +12,7 @@ import { RecipeComponent } from './pages/recipe/recipe.component';
 
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { AddRecipeComponent } from './pages/admin/add-recipe/add-recipe.component';
+import { EditRecipeComponent } from './pages/admin/edit-recipe/edit-recipe.component';
 
 
 export const routes: Routes = [
@@ -25,5 +26,6 @@ export const routes: Routes = [
   { path: 'recette/:id', component: RecipeComponent }, // http://localhost:4200/recette/1
 
   { path: 'admin', component: DashboardComponent }, // http://localhost:4200/admin
-  { path: 'admin/ajout-recette', component: AddRecipeComponent } // http://localhost:4200/admin-ajout-recette
+  { path: 'admin/ajout-recette', component: AddRecipeComponent }, // http://localhost:4200/admin/ajout-recette
+  { path: 'admin/edit-recette/:id', component: EditRecipeComponent } // http://localhost:4200/admin/edit-recette/1
 ];

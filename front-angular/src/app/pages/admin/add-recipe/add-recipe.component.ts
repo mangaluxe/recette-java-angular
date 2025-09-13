@@ -1,4 +1,4 @@
-// src/app/pages/admin/add-recipe.component.ts :
+// src/app/pages/admin/add-recipe/add-recipe.component.ts :
 
 // ng generate component pages/admin/add-recipe
 

@@ -20,4 +20,7 @@ export interface Recipe {
   createdAt: Date;
   categoryName: string;
   authorName: string;
+
+  categoryId?: number; // Uniquement pour Edit
+  userId?: number; // Uniquement pour Edit
 }
