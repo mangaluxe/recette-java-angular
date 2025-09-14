@@ -1,0 +1,37 @@
+<!-- src/app/pages/search/search.component.html : -->
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Rechercher une recette</h1>
+
+        <form>
+            <input type="text" placeholder="Rechercher une recette" [value]="searchTerm" (input)="onSearch($event)">
+        </form>
+
+        @if (filteredRecipes.length === 0) {
+            <p>Aucune recette trouvée.</p>
+        }
+        @else {
+            <div class="recipes-container">
+
+                @for (recipe of filteredRecipes; track recipe.id) {
+    
+                    <div class="recipe-box">
+                        <div class="recipe-box-in">
+                            <a [routerLink]="['/recette', recipe.id]" class="img"><img [src]="recipe.image ? 'http://localhost:8080/img/' + recipe.image : 'assets/img/default.jpg'" [alt]="recipe.title"></a>
+                            <div class="txt">
+                                <h2>{{ recipe.title }}</h2>
+                                <p>{{ recipe.description }}</p>
+                                <a [routerLink]="['/recette', recipe.id]" class="mini-btn btn-success">Voir Détails</a>
+                            </div>
+                        </div>
+                    </div>
+    
+                }    
+
+            </div>
+        }
+
+    </main>
+</div>

@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Recipe } from '../../models/recipe';
 import { RecipesService } from '../../services/recipes.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-recipe',
@@ -23,7 +24,9 @@ export class RecipeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipesService: RecipesService
+    private recipesService: RecipesService,
+
+    private titleService: Title // 💡 Injection du service Title (natif dans Angular) pour mettre à jour le titre dynamique
   ) {}
 
   // ========== Méthodes ==========
@@ -39,6 +42,12 @@ export class RecipeComponent implements OnInit {
     this.recipesService.getRecipeById(id).subscribe({
       next: (res) => {
         this.recipe = res;
+
+        // --- 💡 Mettre à jour le titre dynamique ---
+        if (this.recipe?.title) {
+          this.titleService.setTitle(`${this.recipe.title} - Détail de la recette`);
+        }
+        // --- ---
       },
       error: (err) => {
         console.error('Erreur chargement recette :', err);

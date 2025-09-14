@@ -1,0 +1,12 @@
+<div class="breadcrumb">
+    <a routerLink="/"><span class="icon-home"></span> Accueil</a> <span> > </span>
+  
+    @for (breadcrumb of breadcrumbs; track breadcrumb; let last = $last) {
+        @if (!last) {
+            <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+        }
+        @if (last) {
+            <span>{{ breadcrumb.label }}</span>
+        }
+    }
+</div>
