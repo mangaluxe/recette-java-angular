@@ -60,10 +60,10 @@
 <!-- ----- UpperCasePipe, LowerCasePipe, DatePipe, DecimalPipe ----- -->
 
 <hr><h2 class="mt-5">UpperCasePipe, LowerCasePipe, DatePipe, DecimalPipe</h2>
-<p>Message en majuscules : {{ message | uppercase }}</p> <!-- Pipe Angular -->
-<p>Message en minuscules : {{ message | lowercase }}</p>
+<p>Texte en majuscules : {{ text | uppercase }}</p> <!-- Pipe Angular -->
+<p>Texte en minuscules : {{ text | lowercase }}</p>
 
-<p>Message en majuscules sans Pipe (pas besoin d'importer) : {{ message.toUpperCase() }}</p>
+<p>Texte en majuscules sans Pipe (pas besoin d'importer) : {{ text.toUpperCase() }}</p>
 
 <p>Date actuelle : {{ today2 }}</p>
 <p>Date et heure fr actuelle : {{today2 | date:"d/M/y H:m:s"}}</p>
@@ -99,11 +99,47 @@
 <button (click)="incrementCount()" class="mini-btn">Incrémenter</button>
 
 
+<!-- ----- Gestion des événements ----- -->
+
+<hr><h2 class="mt-5">Gestion des événements</h2>
+
+<input
+  (input)="onInputChange($event)"
+  (change)="onChange($event)"
+  (blur)="onBlur()"
+  (focus)="onFocus()"
+  (keyup)="onKeyUp($event)"
+  placeholder="Pseudo"
+/>
+
+<p>Status du champ : {{ inputStatus }}</p>
+<p>Pseudo : {{ pseudo }}</p>
+<p>Message : {{ message }}</p>
+
+<button (click)="onClick()">Clique-moi</button>
+
+
+
 <!-- ----- Liaison bidirectionnelle (Two-Way Data Binding) ----- -->
 
 <hr><h2 class="mt-5">Liaison bidirectionnelle (Two-Way Data Binding)</h2>
-<p>Bienvenue {{ pseudo }} !</p> <!-- Affiche le pseudo saisi en temps réel -->
+<p>Bienvenue {{ nom }} !</p> <!-- Affiche le nom saisi en temps réel -->
 
-<label>Entrez votre pseudo :
-    <input [(ngModel)]="pseudo">
+<label>Entrez votre nom :
+    <input [(ngModel)]="nom">
 </label>
+
+
+<!-- ----- Formulaires réactifs (Reactive Forms) ----- -->
+
+<hr><h2 class="mt-5">Formulaires réactifs (Reactive Forms)</h2>
+
+<form [formGroup]="form">
+    Pseudo : <input formControlName="pseudo">
+    Email : <input formControlName="email">
+</form>
+
+
+
+<br><hr><br>
+Liens : <a routerLink="/cours">Cours</a> | <a routerLink="/cours/parent">Parent</a>  | <a routerLink="/cours/enfant">Enfant</a> 

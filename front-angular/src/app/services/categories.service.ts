@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-@Injectable({
+@Injectable({ // @Injectable = Service. Utilisation de ce service dans un composant : constructor(private categoriesService: CategoriesService) {}
   providedIn: 'root'
 })
 export class CategoriesService {

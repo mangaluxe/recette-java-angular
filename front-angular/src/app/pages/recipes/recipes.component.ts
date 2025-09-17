@@ -21,7 +21,7 @@ export class RecipesComponent implements OnInit { // Note: Sans écrire "impleme
 
   // ========== Constructeur ==========
 
-  constructor(private recipesService: RecipesService) {}
+  constructor(private recipesService: RecipesService) {} // Utilisation du service RecipesService
 
   // ========== Méthodes ==========
 

@@ -1,0 +1,17 @@
+<!-- parent.component.html -->
+
+<h2>Composant Parent</h2>
+
+<!-- Affiche le message reçu du child -->
+<p>Réponse du composant enfant : {{ responseFromChild }}</p>
+
+<!-- Inclusion du composant enfant -->
+<app-enfant
+  [message]="message"
+  (childEvent)="handleEvent($event)">
+</app-enfant>
+
+
+
+<br><hr><br>
+Liens : <a routerLink="/cours">Cours</a> | <a routerLink="/cours/parent">Parent</a>  | <a routerLink="/cours/enfant">Enfant</a> 

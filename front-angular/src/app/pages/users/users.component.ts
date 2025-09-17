@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
 
   // ========== Constructeur ==========
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) {} // Utilisation du service UsersService
 
   // ========== Méthodes ==========
 

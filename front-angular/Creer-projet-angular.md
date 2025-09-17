@@ -23,6 +23,12 @@ ng version
 On peut aussi regarder dans le fichier package.json à la ligne : "@angular/core": "^19.1.0",
 
 
+### Mises à Jour version : 
+```bash
+ng update @angular/cli --force
+```
+
+
 ### Compiler :
 ```bash
 ng build

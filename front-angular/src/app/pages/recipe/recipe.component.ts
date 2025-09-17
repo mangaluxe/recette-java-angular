@@ -24,7 +24,7 @@ export class RecipeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipesService: RecipesService,
+    private recipesService: RecipesService, // Utilisation du service RecipesService
 
     private titleService: Title // 💡 Injection du service Title (natif dans Angular) pour mettre à jour le titre dynamique
   ) {}

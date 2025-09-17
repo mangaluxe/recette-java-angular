@@ -28,7 +28,7 @@ import { Recipe } from '../models/recipe';
 //   authorName: string;
 // }
 
-@Injectable({
+@Injectable({ // @Injectable = Service. Utilisation de ce service dans un composant : constructor(private recipesService: RecipesService) {}
   providedIn: 'root'
 })
 export class RecipesService {

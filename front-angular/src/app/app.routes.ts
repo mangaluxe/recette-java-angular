@@ -2,8 +2,6 @@
 
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { BasesComponent } from './pages/bases/bases.component';
-import { TestComponent } from './pages/test/test.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UserComponent } from './pages/user/user.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -15,10 +13,12 @@ import { AddRecipeComponent } from './pages/admin/add-recipe/add-recipe.componen
 import { EditRecipeComponent } from './pages/admin/edit-recipe/edit-recipe.component';
 import { SearchComponent } from './pages/search/search.component';
 
+import { BasesComponent } from './cours/bases/bases.component';
+import { ParentComponent } from './cours/parent/parent.component';
+import { EnfantComponent } from './cours/enfant/enfant.component';
+
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: "Accueil - Site de recettes" } }, // http://localhost:4200/
-  { path: 'bases', component: BasesComponent, data: { title: "Bases", breadcrumb: "Bases" } }, // http://localhost:4200/bases
-  { path: 'test', component: TestComponent, data: { title: "Test", breadcrumb: "Test" } }, // http://localhost:4200/test
   { path: 'utilisateurs', component: UsersComponent, data: { title: "Liste d'utilisateurs", breadcrumb: "Liste d'utilisateurs" } }, // http://localhost:4200/utilisateurs
   { path: 'utilisateur/:id', component: UserComponent, data: { title: "Détail de l'utilisateur", breadcrumb: "Détail de l'utilisateur" } }, // http://localhost:4200/utilisateur/1
   { path: 'inscription', component: RegisterComponent, data: { title: "Inscription", breadcrumb: "Inscription" } }, // http://localhost:4200/inscription
@@ -28,5 +28,9 @@ export const routes: Routes = [
 
   { path: 'admin', component: DashboardComponent, data: { title: "Espace admin", breadcrumb: "Admin" } }, // http://localhost:4200/admin
   { path: 'admin/ajout-recette', component: AddRecipeComponent, data: { title: "Ajouter une recette", breadcrumb: "Ajouter une recette" } }, // http://localhost:4200/admin/ajout-recette
-  { path: 'admin/edit-recette/:id', component: EditRecipeComponent, data: { title: "Modifier une recette", breadcrumb: "Modifier une recette" } } // http://localhost:4200/admin/edit-recette/1
+  { path: 'admin/edit-recette/:id', component: EditRecipeComponent, data: { title: "Modifier une recette", breadcrumb: "Modifier une recette" } }, // http://localhost:4200/admin/edit-recette/1
+
+  { path: 'cours', component: BasesComponent, data: { title: "Les bases d'Angular", breadcrumb: "Les bases d'Angular" } }, // http://localhost:4200/cours
+  { path: 'cours/parent', component: ParentComponent, data: { title: "Composant Parent", breadcrumb: "Parent" } }, // http://localhost:4200/parent
+  { path: 'cours/enfant', component: EnfantComponent, data: { title: "Composant Enfant", breadcrumb: "Enfant" } } // http://localhost:4200/enfant
 ];

@@ -15,7 +15,7 @@ import { User } from '../models/user';
 //   roleName: string;
 // }
 
-@Injectable({ // @Injectable : transforme la classe en service Angular injectable partout
+@Injectable({ // @Injectable = Service. Utilisation de ce service dans un composant : constructor(private usersService: UsersService) {}
   providedIn: 'root' // Veut dire que ce service est singleton et disponible partout dans l’app sans avoir besoin de le déclarer ailleurs
 })
 export class UsersService {
