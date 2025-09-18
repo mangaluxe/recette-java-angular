@@ -5,9 +5,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { User } from '../models/user';
+import { Router } from '@angular/router';
 
 export interface AuthResponse {
   token: string;
+  userId: number;
   username: string;
   email: string;
   roleName: string;
@@ -26,7 +29,7 @@ export class AuthService {
 
   // ========== Constructeur ==========
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
 
   // ========== Méthodes ==========
@@ -40,8 +43,8 @@ export class AuthService {
         if (res.token) {
           localStorage.setItem(this.tokenKey, res.token);
           localStorage.setItem("isLogged", "true");
+          localStorage.setItem("userId", res.userId.toString());
           localStorage.setItem("username", res.username);
-          localStorage.setItem("email", res.email);
           localStorage.setItem("roleName", res.roleName);
         }
       })
@@ -83,16 +86,18 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem("isLogged");
+    localStorage.removeItem("userId");
     localStorage.removeItem("username");
-    localStorage.removeItem("email");
     localStorage.removeItem("roleName");
+
+    this.router.navigate(['/connexion']);
   }
 
 
   // ----- Afficher -----
 
   /**
-   * Afficher le nom d'utilisateur
+   * Récupérer le nom d'utilisateur
    */
   getUsername(): string | null {
     return localStorage.getItem("username");
@@ -100,7 +105,24 @@ export class AuthService {
 
 
   /**
-   * Afficher le rôle
+   * Récupérer email de l'utilisateur
+   */
+  getEmail(): string | null {
+    return localStorage.getItem("email");
+  }
+
+
+  /**
+   * Récupérer profil utilisateur
+   */
+  getUserProfile(): Observable<User> {
+    const userId = localStorage.getItem("userId");
+    return this.http.get<User>(`http://localhost:8080/api/user/${userId}`);
+  }
+  
+
+  /**
+   * Récupérer le rôle
    */
   getRole(): string | null {
     return localStorage.getItem("roleName");

@@ -99,6 +99,26 @@
 <button (click)="incrementCount()" class="mini-btn">Incrémenter</button>
 
 
+<!-- ----- Menu déroulant (Dropdown) ----- -->
+
+<hr><h2 class="mt-5">Menu déroulant (Dropdown)</h2>
+
+<div class="relative">
+    <a href="javascript:void(0)" (click)="toggleMenu()">Tom</a>
+
+    <div>
+        <div class="member-dropdown" [class.open]="isMenuOpen">
+            <ul>
+                <li><a routerLink="/membre">Espace membre</a></li>
+                @if (isMenuOpen) {
+                    <li><a href="javascript:void(0)" (click)="closeMenu()">Fermer</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+
 <!-- ----- Gestion des événements ----- -->
 
 <hr><h2 class="mt-5">Gestion des événements</h2>

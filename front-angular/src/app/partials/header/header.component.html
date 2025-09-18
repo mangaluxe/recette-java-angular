@@ -13,18 +13,19 @@
                         <li><a routerLink="/recettes" (click)="closeMenu()">Recettes</a></li>
                         <li><a routerLink="/recherche" (click)="closeMenu()">Recherche</a></li>
                         <li><a routerLink="/utilisateurs" (click)="closeMenu()">Utilisateurs</a></li>
+
                         @if (!isLogged()) {
                             <li><a routerLink="/connexion" (click)="closeMenu()">Connexion</a></li>
                             <li><a routerLink="/inscription" (click)="closeMenu()">Inscription</a></li>
                         }
                         @else {
-                            <li>Bonjour {{ username }}</li>
-                            <!-- <li>Rôle : {{ roleName }}</li> -->
+                            <li><a routerLink="/membre" (click)="closeMenu()">Profil de {{ username }}</a></li>
                             @if (isAdmin()) {
                                 <li><a routerLink="/admin" (click)="closeMenu()">Admin</a></li>
                             }
-                            <li><a (click)="logout()" class="cursor">Deconnexion</a></li>
+                            <li><a (click)="logout()" class="cursor">Déconnexion</a></li>
                         }
+        
                     </ul>
                 </nav>
             </div>

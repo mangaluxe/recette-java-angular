@@ -75,6 +75,19 @@ export class BasesComponent {
   }
 
 
+  // ----- Menu déroulant (Dropdown) -----
+
+  isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+
   // ----- Gestion des événements -----
 
   pseudo: string = '';

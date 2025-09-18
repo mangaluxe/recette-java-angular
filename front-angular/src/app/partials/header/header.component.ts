@@ -78,4 +78,17 @@ export class HeaderComponent {
     return this.authService.getRole();
   }
 
+
+  // ----- Profil -----
+
+  isProfilOpen = false;
+
+  toggleProfil() {
+    this.isProfilOpen = !this.isProfilOpen;
+  }
+
+  closeProfil() {
+    this.isProfilOpen = false;
+  }
+
 }
