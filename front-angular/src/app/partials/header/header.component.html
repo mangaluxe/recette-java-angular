@@ -1,56 +1,44 @@
+<!-- src/app/partials/header/header.component.html -->
+
 <header class="header">
     
-  <div class="header-top">
-      <div class="header-top-in">
-          <div class="title"><a routerLink="/">Site de Recettes</a></div>
-          <div id="my_overlay" class="my-overlay">
-              <nav class="nav-icon">
-                  <label for="menu1" class="label">☰</label>
-                  <input type="checkbox" id="menu1">
-                  <!-- <ul>
-                      <li><a routerLink="/recettes" (click)="closeMenu()">Recettes</a></li>
-                      <li><a routerLink="/recette/1" (click)="closeMenu()">Recette 1</a></li>
-                      @if(!isLogged()) {
-                          <li><a routerLink="/login" (click)="closeMenu()">Connexion</a></li>
-                          <li><a routerLink="/register" (click)="closeMenu()">Inscription</a></li>
-                      } @else {
-                          <li><a routerLink="/profile" (click)="closeMenu()">Profil</a></li>
-                          @if (isAdmin()) {
-                              <li><a routerLink="/admin" (click)="closeMenu()">Admin</a></li>
-                          }
-                          <li><a (click)="logout()">Deconnexion</a></li>
-                      }
-                  </ul> -->
-                  <ul>
-                    <li><a routerLink="/utilisateurs">Utilisateurs</a></li>
-                    <li><a routerLink="/recherche">Recherche</a></li>
-                    <li><a routerLink="/inscription">Inscrire</a></li>
-                    <li><a routerLink="/recettes">Recettes</a></li>
-                    <li><a routerLink="/recette/1">Recette 1</a></li>
-                    <!-- @if(!isLogged()) { -->
-                        <li><a routerLink="/login">Connexion</a></li>
-                        <li><a routerLink="/register">Inscription</a></li>
-                    <!-- } @else { -->
-                        <li><a routerLink="/profile">Profil</a></li>
-                        <!-- @if (isAdmin()) { -->
-                            <li><a routerLink="/admin">Admin</a></li>
-                        <!-- } -->
-                        <li><a>Deconnexion</a></li>
-                    <!-- } -->
-                </ul>
-              </nav>
-          </div>
-      </div>
-  </div>
+    <div class="header-top">
+        <div class="header-top-in">
+            <div class="title"><a routerLink="/">Site de Recettes</a></div>
+            <div id="my_overlay" class="my-overlay">
+                <nav class="nav-icon">
+                    <label for="menu1" class="label">☰</label>
+                    <input type="checkbox" id="menu1">
+                    <ul>
+                        <li><a routerLink="/recettes" (click)="closeMenu()">Recettes</a></li>
+                        <li><a routerLink="/recherche" (click)="closeMenu()">Recherche</a></li>
+                        <li><a routerLink="/utilisateurs" (click)="closeMenu()">Utilisateurs</a></li>
+                        @if (!isLogged()) {
+                            <li><a routerLink="/connexion" (click)="closeMenu()">Connexion</a></li>
+                            <li><a routerLink="/inscription" (click)="closeMenu()">Inscription</a></li>
+                        }
+                        @else {
+                            <li>Bonjour {{ username }}</li>
+                            <!-- <li>Rôle : {{ roleName }}</li> -->
+                            @if (isAdmin()) {
+                                <li><a routerLink="/admin" (click)="closeMenu()">Admin</a></li>
+                            }
+                            <li><a (click)="logout()" class="cursor">Deconnexion</a></li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
 
-  <div class="header-bloc">
+    <div class="header-bloc">
 
-      <img src="/assets/img/recette-fond.jpg" alt="Site de recettes">
+        <img src="/assets/img/recette-fond.jpg" alt="Site de recettes">
 
-      <span class="filter"></span>
+        <span class="filter"></span>
 
-      <!-- <p>{{ randomMessage }}</p> -->
+        <p>Cuisiner, c'est l'art de transformer des ingrédients en amour.</p>
 
-  </div>
+    </div>
 
 </header>

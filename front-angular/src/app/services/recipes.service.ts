@@ -35,7 +35,7 @@ export class RecipesService {
 
   // ========== Propriétés ==========
 
-  private apiUrl = 'http://localhost:8080/api/recipe'; // URL à remplacer en fonction de l'API backend
+  private apiUrl = 'http://localhost:8080/api/recipe'; // URL à adapter selon l'API backend
 
 
   // ========== Constructeur ==========

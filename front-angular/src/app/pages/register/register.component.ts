@@ -54,7 +54,7 @@ export class RegisterComponent {
       };
   
       this.userService.addUser(newUser).subscribe({
-        next: () => this.router.navigate(['/bases']),
+        next: () => this.router.navigate(['/connexion']),
         error: (err) => {
           console.error('Erreur inscription :', err);
           this.errorMessage = err.error?.message || 'Erreur inconnue'; // 💡 Récupère le message envoyé par Spring

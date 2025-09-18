@@ -1,0 +1,30 @@
+<!-- src/app/pages/login/login.component.html : -->
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Connexion</h1>
+
+        <form [formGroup]="login_form" (ngSubmit)="onSubmit()" class="form-box mt-5">
+
+            <div>
+                <label for="username">Pseudo :</label>
+                <input id="username" type="text" formControlName="username">
+            </div>
+        
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input id="password" type="password" formControlName="password">
+            </div>
+
+            @if (errorMessage) {
+                <div class="invalid">{{ errorMessage }}</div>
+            }
+
+            <div class="mt-2">
+                <button type="submit" class="btn btn-success" [disabled]="login_form.invalid">Se connecter</button>
+            </div>
+        </form>
+
+    </main>
+</div>

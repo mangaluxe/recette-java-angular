@@ -1,3 +1,7 @@
+// src/app/services/categories.service.ts :
+
+// ng generate service services/categories
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -9,7 +13,7 @@ export class CategoriesService {
 
   // ========== Propriétés ==========
 
-  private apiUrl = 'http://localhost:8080/api/category'; // URL à remplacer en fonction de l'API backend
+  private apiUrl = 'http://localhost:8080/api/category'; // URL à adapter selon l'API backend
 
   // ========== Constructeur ==========
 

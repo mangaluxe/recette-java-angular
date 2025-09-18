@@ -1,0 +1,264 @@
+-------------------- Ajouter dans pom.xml : --------------------
+
+<!-- Authentification -->
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.11.5</version>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.11.5</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.11.5</version>
+    <scope>runtime</scope>
+</dependency>
+
+
+-------------------- Ajouter dans application.properties --------------------
+
+# Authentification :
+jwt.secret=ChangeThisForAReallyLongAndRandomSecretKey_KeepItAtLeast32Chars
+jwt.expirationMs=3600000
+# 3600000 = 1 heure en ms
+
+
+-------------------- JwtService (sans Lombok) --------------------
+
+package org.example.backspringboot.service;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import jakarta.annotation.PostConstruct;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
+
+@Service
+public class JwtService {
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    @Value("${jwt.expirationMs}")
+    private long jwtExpirationMs;
+
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        // clé HMAC basée sur la propriété jwt.secret
+        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateToken(String username) {
+        Date now = new Date();
+        Date exp = new Date(now.getTime() + jwtExpirationMs);
+
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(now)
+                .setExpiration(exp)
+                .signWith(key)
+                .compact();
+    }
+
+    public String extractUsername(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public boolean isTokenValid(String token, String username) {
+        try {
+            String tokenUsername = extractUsername(token);
+            Date expiration = Jwts.parserBuilder().setSigningKey(key).build()
+                    .parseClaimsJws(token).getBody().getExpiration();
+            return tokenUsername.equals(username) && expiration.after(new Date());
+        }
+        catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+}
+
+
+-------------------- LoginRequest --------------------
+
+public class LoginRequest {
+
+    // ========== Propriétés ==========
+
+    private String username;
+    private String password;
+
+
+    // ========== Constructeurs ==========
+
+    public LoginRequest() { }
+
+    public LoginRequest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+
+    // ========== Getters/Setters ==========
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+}
+
+
+-------------------- LoginResponse --------------------
+
+public class LoginResponse {
+
+    // ========== Propriétés ==========
+
+    private String token;
+    private Long userId;
+    private String username;
+    private String role;
+
+
+    // ========== Constructeurs ==========
+
+    public LoginResponse() { }
+
+    public LoginResponse(String token, Long userId, String username, String role) {
+        this.token = token;
+        this.userId = userId;
+        this.username = username;
+        this.role = role;
+    }
+
+
+    // ========== Getters/Setters ==========
+    
+    public String getToken() { return token; }
+    public void setToken(String token) { this.token = token; }
+
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+
+}
+
+
+-------------------- AuthController --------------------
+
+package org.example.backspringboot.controller;
+
+import org.example.backspringboot.dto.LoginRequest;
+import org.example.backspringboot.dto.LoginResponse;
+import org.example.backspringboot.entity.Users;
+import org.example.backspringboot.repository.UsersRepository;
+import org.example.backspringboot.service.JwtService;
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/auth")// URL par défaut : http://localhost:8080/api/auth
+public class AuthController {
+
+    // ========== Propriétés ==========
+
+    private final UsersRepository usersRepository;
+    private final JwtService jwtService;
+
+
+    // ========== Controller ==========
+
+    public AuthController(UsersRepository usersRepository, JwtService jwtService) {
+        this.usersRepository = usersRepository;
+        this.jwtService = jwtService;
+    }
+
+
+    // ========== Méthodes ==========
+
+    @PostMapping("/connexion")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        Users user = usersRepository.findByUsername(request.getUsername());
+
+        if (user == null || !BCrypt.checkpw(request.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(401).body("Identifiants invalides");
+        }
+
+        String token = jwtService.generateToken(user.getUsername());
+
+        return ResponseEntity.ok(new LoginResponse(token, user.getId(), user.getUsername(), user.getRole().getRoleName()));
+    }
+
+
+
+    /* ========== Tester dans Endpoint : ==========
+
+    POST http://localhost:8080/api/auth/connexion
+    Content-Type: application/json
+
+    {
+      "username": "admin",
+      "password": "1234"
+    }
+
+    Si erreur, affiche : Identifiants invalides
+
+    Si ok, affiche :
+    {
+      "token": "eyJhbGciOi...",
+      "userId": 1,
+      "username": "admin",
+      "role": "Super Admin"
+    }
+
+
+    ========== Tester dans Postman : ==========
+
+    POST http://localhost:8080/api/auth/connexion
+
+    Headers : Content-Type: application/json
+
+    Body, raw, JSON :
+
+    {
+      "username": "admin",
+      "password": "1234"
+    }
+
+    Si erreur, affiche : Identifiants invalides
+
+    Si ok, affiche :
+    {
+      "token": "eyJhbGciOi...",
+      "userId": 1,
+      "username": "admin",
+      "role": "Super Admin"
+    }
+
+    */
+
+}

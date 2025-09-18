@@ -1,3 +1,23 @@
 <!-- src/app/pages/home/home.component.html : -->
 
-<p>home works!</p>
+<div class="container">
+    <main>
+
+        <h1 class="center">Bienvenue sur notre site de recette</h1>
+
+        @if (isLogged()) {
+            <p>Vous êtes connecté !</p>
+        }
+        @else {
+            <p>Vous n'êtes pas connecté !</p>
+        }
+        
+        @if (isAdmin()) {
+            <p>Vous êtes Admin ou + !</p>
+        }
+        @else {
+            <p>Vous n'êtes pas Admin !</p>
+        }
+
+    </main>
+</div>
