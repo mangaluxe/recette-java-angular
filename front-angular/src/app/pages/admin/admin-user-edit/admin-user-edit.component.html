@@ -1,0 +1,36 @@
+<!-- src/app/pages/admin/admin-user-edit/admin-user-edit.component.html : -->
+
+<div class="container">
+    <main>
+  
+        <h1 class="center">Modifier l'utilisateur</h1>
+
+        <form [formGroup]="user_form" (ngSubmit)="updateUser()">
+            <div>
+                <label for="pseudo">Pseudo :</label>
+                <input type="text" formControlName="username" id="pseudo">
+            </div>
+      
+            <div>
+                <label for="email">Email :</label>
+                <input type="email" formControlName="email" id="email">
+            </div>
+      
+            <div>
+                <label for="roleId">Rôle :</label>
+                <div class="select-container">
+                    <select formControlName="roleId" id="roleId">
+                        <option value="">-</option>
+                        @for (role of roles; track role.id) {
+                            <option [value]="role.id">{{ role.roleName }}</option>
+                        }
+                    </select>
+                    <div class="arrow-down"></div>
+                </div>
+            </div>
+      
+            <button type="submit" class="btn btn-success mt-2" [disabled]="user_form.invalid">Enregistrer</button>
+          </form>
+
+    </main>
+</div>

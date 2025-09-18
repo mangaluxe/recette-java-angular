@@ -1,0 +1,38 @@
+<!-- src/app/pages/admin/admin-user/admin-user.component.html : -->
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Gestion d'utilisateurs</h1>
+
+        <div class="table-list-head">
+            <div class="e">Pseudo</div>
+            <div class="e">Email</div>
+            <div class="e">Date d'inscription</div>
+            <div class="e">Rôle</div>
+            <div class="e"><span class="no-mobile">Modifier</span></div>
+            <div class="e"><span class="no-mobile">Supprimer</span></div>
+        </div>
+        <ul class="table-list">
+
+            @for (user of users; track user) {
+                <li>
+                    <div class="e">{{ user.username }}</div>
+                    <div class="e">{{ user.email }}</div>
+                    <div class="e">{{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+                    <div class="e">{{ user.roleName }}</div>
+                    <div class="e center pd-1"><a [routerLink]="['/admin/admin-utilisateurs/edit', user.id]" class="mini-btn btn-warning"><span class="icon-pencil"></span></a></div>
+                    <div class="e center"><button (click)="deleteUser(user.id)" class="mini-btn btn-danger"><span class="icon-cross"></span></button></div>
+                </li>
+            }
+            @empty {
+                <li>Aucun utilisateur</li>
+            }
+
+        </ul>
+
+    </main>
+
+    <p class="mt-5"><a routerLink="/admin">Recettes</a></p>
+
+</div>

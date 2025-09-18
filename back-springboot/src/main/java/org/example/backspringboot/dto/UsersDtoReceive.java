@@ -45,7 +45,7 @@ public class UsersDtoReceive {
 //
 //    private boolean isActive;
 
-//    private Long roleId; // Pas besoin, car on met roleId à 1 par défaut (pour membre)
+    private Long roleId; // Besoin pour update, mais pas pour create (qui force roleId à 1 par défaut)
 
 
     // ========== Constructeurs ==========
@@ -53,10 +53,11 @@ public class UsersDtoReceive {
     public UsersDtoReceive() {
     }
 
-    public UsersDtoReceive(String username, String password, String email) {
+    public UsersDtoReceive(String username, String password, String email, Long roleId) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.roleId = roleId;
     }
 
 
@@ -84,6 +85,14 @@ public class UsersDtoReceive {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
 }

@@ -92,8 +92,7 @@ export class EditRecipeComponent implements OnInit {
   loadRecipe(id: number): void {
     this.recipesService.getRecipeById(id).subscribe({
       next: recipe => {
-        // Patch des valeurs simples
-        this.recipe_form.patchValue({
+        this.recipe_form.patchValue({ // Patch des valeurs simples
           title: recipe.title,
           description: recipe.description,
           instructions: recipe.instructions,
@@ -107,9 +106,8 @@ export class EditRecipeComponent implements OnInit {
         });
   
         this.currentImage = recipe.image || null; // Image actuelle
-  
-        // Vider le FormArray actuel
-        this.ingredients.clear();
+
+        this.ingredients.clear(); // Vider le FormArray actuel
   
         // Ajouter chaque ingrédient correctement
         if (recipe.ingredients && recipe.ingredients.length > 0) {
@@ -120,9 +118,9 @@ export class EditRecipeComponent implements OnInit {
               unit: ing.unit
             }));
           });
-        } else {
-          // Toujours au moins un ingrédient
-          this.ingredients.push(this.createIngredient());
+        }
+        else {
+          this.ingredients.push(this.createIngredient()); // Toujours au moins un ingrédient
         }
       },
       error: err => console.error(err)
@@ -136,6 +134,12 @@ export class EditRecipeComponent implements OnInit {
     }
   }
 
+
+  // ----- Update -----
+
+  /**
+   * Modifier une recette
+   */
   updateRecipe(): void {
     if (this.recipe_form.valid) {
       const formData = new FormData();
@@ -148,7 +152,7 @@ export class EditRecipeComponent implements OnInit {
       this.recipesService.updateRecipe(this.recipeId, formData).subscribe({
         next: res => {
           console.log('Recette mise à jour', res);
-          this.router.navigate(['/recettes']);
+          this.router.navigate(['/admin']);
         },
         error: err => console.error(err)
       });

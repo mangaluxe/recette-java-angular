@@ -2,81 +2,81 @@
 
 <div class="container">
     <main>
-  
-      <h1 class="text-center">Modifier la recette</h1>
-  
-      <form [formGroup]="recipe_form" (ngSubmit)="updateRecipe()" class="form-box">
-  
-        <!-- Titre -->
-        <label for="title">Titre</label>
-        <input type="text" id="title" formControlName="title" class="form-control">
-  
-        <!-- Catégorie -->
-        <label for="categoryId">Catégorie</label>
-        <div class="select-container">
-          <select formControlName="categoryId" id="categoryId">
-            <option value="">-</option>
-            <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-          </select>
-          <div class="arrow-down"></div>
-        </div>
-  
-        <!-- Description -->
-        <label for="description">Description</label>
-        <textarea id="description" formControlName="description" class="form-control auto-resize"></textarea>
-  
-        <!-- Image -->
-        <label for="image">Image</label>
-        <input type="file" id="image" (change)="onFileSelected($event)" class="mb-2">
-        <div *ngIf="recipe_form.value.image || currentImage">
-          <p>Image actuelle :</p>
-          <img 
-            [src]="currentImage ? 'http://localhost:8080/img/' + currentImage : null" 
-            alt="Image recette" 
-            width="200">
-        </div>
-  
-        <!-- Ingrédients -->
-        <div>Ingrédients</div>
-        <div formArrayName="ingredients" id="ingredients-container">
-          <div *ngFor="let ing of ingredients.controls; let i = index" [formGroupName]="i" class="ingredient-row">
-            <input type="text" formControlName="ingredientName" placeholder="Ingrédient" class="form-control">
-            <input type="number" formControlName="quantity" placeholder="Quantité" class="form-control">
-            <input type="text" formControlName="unit" placeholder="Unité (g/ml)" class="form-control">
-          </div>
-        </div>
-        <div class="mini-btn-container">
-          <button type="button" (click)="addIngredient()" class="mini-btn btn-success">Ajouter un ingrédient</button>
-          <button type="button" (click)="removeIngredient()" class="mini-btn btn-danger">Supprimer un ingrédient</button>
-        </div>
-  
-        <!-- Instructions -->
-        <label for="instructions">Instructions</label>
-        <textarea id="instructions" formControlName="instructions" class="form-control auto-resize" placeholder="Saut de ligne = 1 étape"></textarea>
-  
-        <!-- Temps -->
-        <label for="prep_time">Temps de préparation (min)</label>
-        <input type="number" id="prep_time" formControlName="prepTime" class="form-control">
-  
-        <label for="cook_time">Temps de cuisson (min)</label>
-        <input type="number" id="cook_time" formControlName="cookTime" class="form-control">
-  
-        <label for="servings">Nombre de personnes/portions</label>
-        <input type="number" id="servings" formControlName="servings" class="form-control">
-  
-        <!-- Commentaires -->
-        <label for="allow_comment">Autoriser les commentaires ?</label>
-        <input type="checkbox" id="allow_comment" formControlName="allowComment">
-  
-        <!-- Bouton -->
-        <div>
-          <button type="submit" class="btn btn-success mt-2" [disabled]="recipe_form.invalid">Modifier</button>
-        </div>
-  
-      </form>
-  
+
+        <h1 class="center">Modifier la recette</h1>
+
+        <form [formGroup]="recipe_form" (ngSubmit)="updateRecipe()" class="form-box">
+
+            <!-- Titre -->
+            <label for="title">Titre</label>
+            <input type="text" id="title" formControlName="title" class="form-control">
+
+            <!-- Catégorie -->
+            <label for="categoryId">Catégorie</label>
+            <div class="select-container">
+                <select formControlName="categoryId" id="categoryId">
+                    <option value="">-</option>
+                    <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                </select>
+                <div class="arrow-down"></div>
+            </div>
+
+            <!-- Description -->
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" class="form-control auto-resize"></textarea>
+
+            <!-- Image -->
+            <label for="image">Image</label>
+            <input type="file" id="image" (change)="onFileSelected($event)" class="mb-2">
+            <div *ngIf="recipe_form.value.image || currentImage">
+                <p>Image actuelle :</p>
+                <img 
+                    [src]="currentImage ? 'http://localhost:8080/img/' + currentImage : null" 
+                    alt="Image recette" 
+                    width="200">
+            </div>
+
+            <!-- Ingrédients -->
+            <div>Ingrédients</div>
+            <div formArrayName="ingredients" id="ingredients-container">
+                <div *ngFor="let ing of ingredients.controls; let i = index" [formGroupName]="i" class="ingredient-row">
+                    <input type="text" formControlName="ingredientName" placeholder="Ingrédient" class="form-control">
+                    <input type="number" formControlName="quantity" placeholder="Quantité" class="form-control">
+                    <input type="text" formControlName="unit" placeholder="Unité (g/ml)" class="form-control">
+                </div>
+            </div>
+            <div class="mini-btn-container">
+                <button type="button" (click)="addIngredient()" class="mini-btn btn-success">Ajouter un ingrédient</button>
+                <button type="button" (click)="removeIngredient()" class="mini-btn btn-danger">Supprimer un ingrédient</button>
+            </div>
+
+            <!-- Instructions -->
+            <label for="instructions">Instructions</label>
+            <textarea id="instructions" formControlName="instructions" class="form-control auto-resize" placeholder="Saut de ligne = 1 étape"></textarea>
+
+            <!-- Temps -->
+            <label for="prep_time">Temps de préparation (min)</label>
+            <input type="number" id="prep_time" formControlName="prepTime" class="form-control">
+
+            <label for="cook_time">Temps de cuisson (min)</label>
+            <input type="number" id="cook_time" formControlName="cookTime" class="form-control">
+
+            <label for="servings">Nombre de personnes/portions</label>
+            <input type="number" id="servings" formControlName="servings" class="form-control">
+
+            <!-- Commentaires -->
+            <label for="allow_comment">Autoriser les commentaires ?</label>
+            <input type="checkbox" id="allow_comment" formControlName="allowComment">
+
+            <!-- Bouton -->
+            <div>
+                <button type="submit" class="btn btn-success mt-2" [disabled]="recipe_form.invalid">Modifier</button>
+            </div>
+
+        </form>
+
     </main>
-  
+
     <p class="mt-5"><a routerLink="/admin">Retour dashboard</a></p>
-  
-</div>  
+
+</div>

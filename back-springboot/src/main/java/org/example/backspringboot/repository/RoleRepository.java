@@ -4,6 +4,8 @@ import org.example.backspringboot.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
@@ -13,5 +15,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     */
 
     Role findByRoleName(String roleName); // Spring Data JPA va automatiquement créer la requête SQL correspondante (SELECT * FROM role WHERE role_name = ?)
+
+    List<Role> findAllByOrderByIdAsc(); // 👍 Renvoie id de rôle dans l'ordre, sinon dans le désordre
 
 }

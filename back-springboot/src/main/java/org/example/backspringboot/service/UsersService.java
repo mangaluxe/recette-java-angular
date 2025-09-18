@@ -111,7 +111,7 @@ public class UsersService {
         }
         existingUser.setEmail(dto.getEmail());
 
-        Role role = roleRepository.findById(1L)
+        Role role = roleRepository.findById(dto.getRoleId())
                 .orElseThrow(() -> new IllegalArgumentException("Rôle non trouvé"));
 
         existingUser.setRole(role);

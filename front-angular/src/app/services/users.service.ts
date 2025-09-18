@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { Role } from '../models/role';
 
 // export interface User { // On peut mettre le model directement ici ou dans un fichier séparé : src/app/models/user.ts
 //   id: number;
@@ -45,11 +46,20 @@ export class UsersService {
     return this.http.get<User[]>(this.apiUrl);
   }
 
+
   /**
    * Récupérer un utilisateur par id
    */
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
+  }
+
+
+  /**
+   * Récupérer tous les rôles
+   */
+  getRoles(): Observable<Role[]> {
+    return this.http.get<Role[]>('http://localhost:8080/api/role');
   }
 
 
@@ -65,6 +75,26 @@ export class UsersService {
   // addUser(user: User): Observable<User> {
   addUser(user: Partial<User>): Observable<User> { // Partial<User> : envoyer un objet partiel (ex. sans id, sans createdAt qui seront générés par le backend)
     return this.http.post<User>(this.apiUrl, user);
+  }
+
+
+  // ----- Update -----
+
+  /**
+   * Modifier un utilisateur
+   */
+  updateUser(id: number, user: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+  }
+
+
+  // ----- Delete -----
+
+  /**
+   * Supprimer un utilisateur
+   */
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
 }

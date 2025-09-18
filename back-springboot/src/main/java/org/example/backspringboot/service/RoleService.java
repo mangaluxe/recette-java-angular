@@ -30,7 +30,8 @@ public class RoleService {
      * Récupérer tous les rôles
      */
     public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+        // return roleRepository.findAll(); // Dans le désordre
+        return roleRepository.findAllByOrderByIdAsc(); // Dans l'ordre
     }
 
     /**

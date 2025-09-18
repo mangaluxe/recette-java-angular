@@ -19,6 +19,8 @@ import { EnfantComponent } from './cours/enfant/enfant.component';
 import { authGuard } from './guards/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { MemberComponent } from './pages/member/member.component';
+import { AdminUserComponent } from './pages/admin/admin-user/admin-user.component';
+import { AdminUserEditComponent } from './pages/admin/admin-user-edit/admin-user-edit.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: "Accueil - Site de recettes" } }, // http://localhost:4200/
@@ -35,6 +37,8 @@ export const routes: Routes = [
   { path: 'admin', component: DashboardComponent, canActivate: [authGuard], data: { title: "Espace admin", breadcrumb: "Admin" } }, // http://localhost:4200/admin
   { path: 'admin/ajout-recette', component: AddRecipeComponent, canActivate: [authGuard], data: { title: "Ajouter une recette", breadcrumb: "Ajouter une recette" } }, // http://localhost:4200/admin/ajout-recette
   { path: 'admin/edit-recette/:id', component: EditRecipeComponent, canActivate: [authGuard], data: { title: "Modifier une recette", breadcrumb: "Modifier une recette" } }, // http://localhost:4200/admin/edit-recette/1
+  { path: 'admin/admin-utilisateurs', component: AdminUserComponent, canActivate: [authGuard], data: { title: "Gestion d'utilisateurs", breadcrumb: "Gestion d'utilisateurs" } }, // http://localhost:4200/admin/admin-utilisateurs
+  { path: 'admin/admin-utilisateurs/edit/:id', component: AdminUserEditComponent, canActivate: [authGuard], data: { title: "Gestion d'utilisateurs", breadcrumb: "Gestion d'utilisateurs" } }, // http://localhost:4200/admin/admin-utilisateurs/1
 
   { path: 'cours', component: BasesComponent, data: { title: "Les bases d'Angular", breadcrumb: "Les bases d'Angular" } }, // http://localhost:4200/cours
   { path: 'cours/parent', component: ParentComponent, data: { title: "Composant Parent", breadcrumb: "Parent" } }, // http://localhost:4200/parent
