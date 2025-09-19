@@ -51,10 +51,36 @@ public class RecipeIngredientService {
     // ----- Create -----
 
     public RecipeIngredientDtoSend addIngredientToRecipe(Long recipeId, RecipeIngredientDtoReceive dto) {
+        System.out.println("📥 DTO reçu : id=" + dto.getIngredientId() +
+                ", name=" + dto.getIngredientName() +
+                ", unit=" + dto.getUnit() +
+                ", qty=" + dto.getQuantity());
+
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RuntimeException("Recette non trouvée"));
-        Ingredient ingredient = ingredientRepository.findById(dto.getIngredientId())
-                .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé"));
+
+        // Ajouter dans IngredientRepository : Optional<Ingredient> findByNameIgnoreCaseAndUnitIgnoreCase(String name, String unit);
+
+        // Vérifie si l’ingrédient existe déjà (Pour éviter d'insérer plusieurs fois même ingrédient) :
+        Ingredient ingredient;
+        if (dto.getIngredientId() != null) { // Cas ingrédient existant
+            ingredient = ingredientRepository.findById(dto.getIngredientId())
+                    .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé"));
+        }
+        else if (dto.getIngredientName() != null && dto.getUnit() != null) { // Cas nouvel ingrédient ou réutilisation
+            ingredient = ingredientRepository
+                    .findByNameIgnoreCaseAndUnitIgnoreCase(dto.getIngredientName().trim(), dto.getUnit().trim())
+                    .orElseGet(() -> {
+                        System.out.println("Nouvel ingrédient créé : " + dto.getIngredientName() + " (" + dto.getUnit() + ")");
+                        Ingredient newIngredient = new Ingredient();
+                        newIngredient.setName(dto.getIngredientName().trim());
+                        newIngredient.setUnit(dto.getUnit().trim());
+                        return ingredientRepository.save(newIngredient);
+                    });
+        }
+        else {
+            throw new RuntimeException("Ni ingredientId ni ingredientName fournis !");
+        }
 
         RecipeIngredient recipeIngredient = new RecipeIngredient();
         recipeIngredient.setRecipe(recipe);

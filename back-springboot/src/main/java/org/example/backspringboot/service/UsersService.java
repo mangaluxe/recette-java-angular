@@ -8,7 +8,9 @@ import org.example.backspringboot.repository.RoleRepository;
 import org.example.backspringboot.repository.UsersRepository;
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -97,7 +99,7 @@ public class UsersService {
     // ----- Update -----
 
     /**
-     * Modifier un utilisateur
+     * Modifier un utilisateur (par l'admin)
      */
     public UsersDtoSend updateUser(Long id, UsersDtoReceive dto) {
         Users existingUser = usersRepository.findById(id)
@@ -120,6 +122,32 @@ public class UsersService {
 
         return convertToDtoSend(savedUser);
     }
+
+
+    /**
+     * Modifier un utilisateur (par lui-même) : uniquement email et mot de passe
+     */
+    public UsersDtoSend updateUserProfile(Long id, UsersDtoReceive dto) {
+        Users user = usersRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        // Vérifie l’ancien mot de passe si le nouveau mot de passe est fourni
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            if (!BCrypt.checkpw(dto.getOldPassword(), user.getPassword())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ancien mot de passe incorrect");
+            }
+            user.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
+        }
+
+        // Met à jour l’email
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
+        }
+
+        Users savedUser = usersRepository.save(user);
+        return convertToDtoSend(savedUser);
+    }
+
 
 
     // ----- Delete -----

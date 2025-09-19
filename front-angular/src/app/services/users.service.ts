@@ -81,10 +81,18 @@ export class UsersService {
   // ----- Update -----
 
   /**
-   * Modifier un utilisateur
+   * Modifier un utilisateur (par un admin)
    */
   updateUser(id: number, user: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+  }
+
+
+  /**
+   * Modifier utilisateur par lui-même : email et/ou mot de passe
+   */
+  updateUserProfile(userId: number, dto: { email?: string; password?: string }) {
+    return this.http.put<User>(`${this.apiUrl}/profile/${userId}`, dto);
   }
 
 

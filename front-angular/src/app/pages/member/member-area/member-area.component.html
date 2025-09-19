@@ -1,0 +1,23 @@
+<!-- src/app/pages/member/member-area/member-area.component.html : -->
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Espace membre</h1>
+
+        <div class="profile-box">
+            <div class="profile-box-header"><span class="icon-user"></span> {{ username }} </div> <!-- username récupéré depuis localStorage -->
+            <div class="profile-box-body">
+                <p>Pseudo : {{ user?.username }}</p><!-- username récupéré depuis API -->
+                <p>Email : {{ user?.email }}</p>
+                <p>Rôle : {{ roleName }}</p>
+                <p>Inscrit le {{ user?.createdAt | date:'dd/MM/yyyy' }}</p>
+            </div>
+            <div class="profile-box-footer right">
+                <a routerLink="/membre-edit"><span class="icon-pencil"></span> Modifier</a>
+            </div>
+        </div>
+
+    </main>
+
+</div>

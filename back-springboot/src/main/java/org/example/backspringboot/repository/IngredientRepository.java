@@ -4,6 +4,8 @@ import org.example.backspringboot.entity.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 
@@ -13,5 +15,9 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
     */
 
     Ingredient findByName(String name);
+
+    Optional<Ingredient> findByNameAndUnit(String name, String unit);
+
+    Optional<Ingredient> findByNameIgnoreCaseAndUnitIgnoreCase(String name, String unit);
 
 }

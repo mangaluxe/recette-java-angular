@@ -33,6 +33,8 @@ public class UsersDtoReceive {
     @Size(min = 4, message = "Minimum 4 caractères.")
     private String password;
 
+    private String oldPassword; // Ancien mot de passe pour vérification
+
     @NotBlank(message = "Email obligatoire.")
     @Email(message = "Format email invalide.")
     private String email;
@@ -53,9 +55,10 @@ public class UsersDtoReceive {
     public UsersDtoReceive() {
     }
 
-    public UsersDtoReceive(String username, String password, String email, Long roleId) {
+    public UsersDtoReceive(String username, String password, String oldPassword,  String email, Long roleId) {
         this.username = username;
         this.password = password;
+        this.oldPassword = oldPassword;
         this.email = email;
         this.roleId = roleId;
     }
@@ -77,6 +80,14 @@ public class UsersDtoReceive {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public String getEmail() {

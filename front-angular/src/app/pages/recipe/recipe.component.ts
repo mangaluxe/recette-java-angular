@@ -45,7 +45,7 @@ export class RecipeComponent implements OnInit {
 
         // --- 💡 Mettre à jour le titre dynamique ---
         if (this.recipe?.title) {
-          this.titleService.setTitle(`${this.recipe.title} - Détail de la recette`);
+          this.titleService.setTitle(`${this.recipe.title} - Recette`);
         }
         // --- ---
       },

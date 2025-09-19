@@ -1,0 +1,8 @@
+# Installer d'abord NodeJS (si c'est pas encore fait) : https://nodejs.org
+
+# Vérifier que les commandes 'node' et 'npm' marchent :
+node -v 
+npm -v
+
+# Installer Angular (si c'est pas encore fait) :
+npm install -g @angular/cli

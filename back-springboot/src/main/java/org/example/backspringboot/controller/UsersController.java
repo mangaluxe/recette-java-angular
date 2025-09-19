@@ -91,7 +91,7 @@ public class UsersController {
     // ----- Update -----
 
     /**
-     * Modifier un utilisateur
+     * Modifier un utilisateur (par l'admin)
      */
     @PutMapping("/{id}") // PUT http://localhost:8080/api/user/{id}
     public ResponseEntity<UsersDtoSend> updateUser(@PathVariable Long id, @RequestBody UsersDtoReceive dto) {
@@ -102,6 +102,15 @@ public class UsersController {
         catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    /**
+     * Modifier un utilisateur (par lui-même) : uniquement email et mot de passe
+     */
+    @PutMapping("/profile/{id}") // PUT http://localhost:8080/api/user/profile/{id}
+    public UsersDtoSend updateUserProfile(@PathVariable Long id, @RequestBody UsersDtoReceive dto) {
+        return usersService.updateUserProfile(id, dto);
     }
 
 

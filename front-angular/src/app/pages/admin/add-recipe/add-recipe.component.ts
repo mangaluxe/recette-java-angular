@@ -117,6 +117,7 @@ export class AddRecipeComponent implements OnInit {
   
       this.recipesService.createRecipe(formData).subscribe({
         next: (res) => {
+          console.log("Envoi ingrédient :", this.recipe_form.value.ingredients);
           console.log('Recette ajoutée', res);
           this.router.navigate(['/recettes']);
         },

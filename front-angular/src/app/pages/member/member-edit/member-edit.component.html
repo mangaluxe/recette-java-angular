@@ -1,0 +1,39 @@
+<!-- src/app/pages/member/member-edit/member-edit.component.html : -->
+
+
+<div class="container">
+    <main>
+
+        <h1 class="center">Modifier profil</h1>
+
+        <form [formGroup]="profile_form" (ngSubmit)="updateProfile()" class="form-box mt-5">
+            <div>
+                <label for="email">Email :</label>
+                <input type="email" formControlName="email" id="email">
+            </div>
+      
+            <div>
+                <label for="old_password">Ancien mot de passe</label>
+                <input type="password" formControlName="oldPassword" id="old_password" placeholder="Laisser vide si pas de changement">
+            </div>
+        
+            <div>
+                <label for="new_password">Nouveau mot de passe</label>
+                <input type="password" formControlName="newPassword" id="new_password" placeholder="Laisser vide si pas de changement">
+            </div>
+        
+            <div>
+                <label for="confirm_password">Confirmer mot de passe</label>
+                <input type="password" formControlName="confirmPassword" id="confirm_password" placeholder="Laisser vide si pas de changement">
+            </div>
+
+            @if (errorMessage) {
+                <div class="invalid">{{ errorMessage }}</div>
+            }
+      
+            <button type="submit" class="btn btn-success mt-2" [disabled]="profile_form.invalid">Enregistrer</button>
+        </form>
+
+    </main>
+
+</div>

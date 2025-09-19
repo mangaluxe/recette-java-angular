@@ -236,12 +236,12 @@ public class RecipeService {
                 Ingredient ingredient;
 
                 if (riDto.getIngredientId() != null) {
-                    // ingrédient existant :
+                    // Ingrédient existant :
                     ingredient = ingredientRepository.findById(riDto.getIngredientId())
                             .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé : " + riDto.getIngredientId()));
                 }
                 else if (riDto.getIngredientName() != null && riDto.getUnit() != null) {
-                    // nouvel ingrédient :
+                    // Nouvel ingrédient :
                     ingredient = new Ingredient();
                     ingredient.setName(riDto.getIngredientName());
                     ingredient.setUnit(riDto.getUnit());

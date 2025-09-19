@@ -5,7 +5,7 @@
   
         <h1 class="center">Modifier l'utilisateur</h1>
 
-        <form [formGroup]="user_form" (ngSubmit)="updateUser()">
+        <form [formGroup]="user_form" (ngSubmit)="updateUser()" class="form-box mt-5">
             <div>
                 <label for="pseudo">Pseudo :</label>
                 <input type="text" formControlName="username" id="pseudo">
