@@ -33,13 +33,13 @@ public class UsersDtoReceive {
     @Size(min = 4, message = "Minimum 4 caractères.")
     private String password;
 
-    private String oldPassword; // Ancien mot de passe pour vérification
+    private String oldPassword; // 💡 Ancien mot de passe pour vérification
 
     @NotBlank(message = "Email obligatoire.")
     @Email(message = "Format email invalide.")
     private String email;
 
-//    private LocalDateTime createdAt; // Pas besoin de createdAt dans UsersDtoReceive, car cette valeur est générée automatiquement côté serveur lors de la création de l’utilisateur (LocalDateTime.now()) et ne doit pas être fournie par le client
+    // Pas besoin de createdAt dans UsersDtoReceive, car cette valeur est générée automatiquement côté serveur lors de la création de l’utilisateur avec LocalDateTime.now()
 
 //    private LocalDateTime lastLogin;
 //

@@ -53,7 +53,7 @@ public class Users {
 
     // ----- Relation -----
 
-//    @ManyToOne
+    // 👉 Relation ManyToOne : plusieurs utilisateurs peuvent avoir le même rôle
     @ManyToOne(fetch = FetchType.LAZY) // Lazy pour éviter de charger le rôle inutilement
     @JoinColumn(name = "role_id", nullable = false) // Clef étrangère vers `Role`
     private Role role;

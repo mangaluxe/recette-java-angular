@@ -37,6 +37,7 @@ public class Role {
 
     // ----- Relation -----
 
+    // 👉 Relation @OneToMany (Relation inverse), un rôle peut avoir plusieurs utilisateurs
 //    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true) // CascadeType.ALL signifie que si on supprime un rôle, tous les Users liés seront supprimés. Donc à éviter ici
     @OneToMany(mappedBy = "role")
     private List<Users> users; // Relation avec les utilisateurs

@@ -19,19 +19,21 @@ Ajouter les dépendances :
 
 <dependencies>
 
+    <!-- Application Web -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <!-- Rechargement automatique de l'application, le redémarrage du serveur  -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-devtools</artifactId>
         <scope>runtime</scope>
         <optional>true</optional>
     </dependency>
-    
-        <!-- Lombok -->
+
+    <!-- Lombok -->
 <!--        <dependency>-->
 <!--            <groupId>org.projectlombok</groupId>-->
 <!--            <artifactId>lombok</artifactId>-->
@@ -77,6 +79,25 @@ Ajouter les dépendances :
         <version>0.4</version>
     </dependency>
 
+    <!-- Authentification -->
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-api</artifactId>
+        <version>0.11.5</version>
+    </dependency>
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-impl</artifactId>
+        <version>0.11.5</version>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-jackson</artifactId>
+        <version>0.11.5</version>
+        <scope>runtime</scope>
+    </dependency>
+
 </dependencies>
 
 
@@ -113,6 +134,16 @@ spring.datasource.username=root
 spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+
+# Upload (taille max) :
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# Authentification :
+jwt.secret=ChangeThisForAReallyLongAndRandomSecretKey_KeepItAtLeast32Chars
+jwt.expirationMs=3600000
+# 3600000 = 1 heure en ms
 
 
 ----- Lancement -----

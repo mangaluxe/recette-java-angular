@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user") // URL par défaut : http://localhost:8080/api/users
+@RequestMapping("/api/user") // URL par défaut : http://localhost:8080/api/user
 public class UsersController {
 
     // ========== Propriétés ==========
