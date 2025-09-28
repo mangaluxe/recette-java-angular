@@ -13,9 +13,6 @@ import { AddRecipeComponent } from './pages/admin/add-recipe/add-recipe.componen
 import { EditRecipeComponent } from './pages/admin/edit-recipe/edit-recipe.component';
 import { SearchComponent } from './pages/search/search.component';
 
-import { BasesComponent } from './cours/bases/bases.component';
-import { ParentComponent } from './cours/parent/parent.component';
-import { EnfantComponent } from './cours/enfant/enfant.component';
 import { authGuard } from './guards/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminUserComponent } from './pages/admin/admin-user/admin-user.component';
@@ -40,9 +37,6 @@ export const routes: Routes = [
   { path: 'admin/ajout-recette', component: AddRecipeComponent, canActivate: [authGuard], data: { title: "Ajouter une recette", breadcrumb: "Ajouter une recette" } }, // http://localhost:4200/admin/ajout-recette
   { path: 'admin/edit-recette/:id', component: EditRecipeComponent, canActivate: [authGuard], data: { title: "Modifier une recette", breadcrumb: "Modifier une recette" } }, // http://localhost:4200/admin/edit-recette/1
   { path: 'admin/admin-utilisateurs', component: AdminUserComponent, canActivate: [authGuard], data: { title: "Gestion d'utilisateurs", breadcrumb: "Gestion d'utilisateurs" } }, // http://localhost:4200/admin/admin-utilisateurs
-  { path: 'admin/admin-utilisateurs/edit/:id', component: AdminUserEditComponent, canActivate: [authGuard], data: { title: "Gestion d'utilisateurs", breadcrumb: "Gestion d'utilisateurs" } }, // http://localhost:4200/admin/admin-utilisateurs/1
+  { path: 'admin/admin-utilisateurs/edit/:id', component: AdminUserEditComponent, canActivate: [authGuard], data: { title: "Gestion d'utilisateurs", breadcrumb: "Gestion d'utilisateurs" } } // http://localhost:4200/admin/admin-utilisateurs/1
 
-  { path: 'cours', component: BasesComponent, data: { title: "Les bases d'Angular", breadcrumb: "Les bases d'Angular" } }, // http://localhost:4200/cours
-  { path: 'cours/parent', component: ParentComponent, data: { title: "Composant Parent", breadcrumb: "Parent" } }, // http://localhost:4200/parent
-  { path: 'cours/enfant', component: EnfantComponent, data: { title: "Composant Enfant", breadcrumb: "Enfant" } } // http://localhost:4200/enfant
 ];

@@ -71,7 +71,7 @@ imports: [RouterLink], // S'il y a des liens, on importe RouterLink
 src/app/partials/footer/footer.component.html :
 ```html
 <footer>
-  <p>Mon Footer</p>
+    <p>Mon Footer</p>
 </footer>
 ```
 
@@ -117,8 +117,8 @@ src/index.html :
 src/app/app.routes.ts (Pour indiquer le chemin) :
 ```ts
 export const routes: Routes = [
-  {path: '', component: HomeComponent}, // http://localhost:4200/
-  {path: 'test', component: TestComponent}, // http://localhost:4200/test
+  { path: '', component: HomeComponent }, // http://localhost:4200/
+  { path: 'test', component: TestComponent }, // http://localhost:4200/test
 ];
 ```
 

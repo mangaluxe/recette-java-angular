@@ -31,6 +31,7 @@ export interface User {
   username: string;
   email: string;
   createdAt: string; // LocalDateTime → string JSON
+  roleId: number;
   roleName: string;
 }
 ```
