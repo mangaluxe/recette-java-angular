@@ -2,90 +2,99 @@
 <div class="container">
     <main>
 
-        <h1 class="center">{{ recipe?.title }}</h1>
+        <!-- <h1 class="center">{{ recipe?.title }}</h1> --> <!-- Sans signal -->
+        <!-- <h1 class="center">{{ recipe()?.title }}</h1> --> <!-- Avec signal -->
 
-        <p class="right">Catégorie : <span class="category-tag">{{ recipe?.categoryName }}</span></p>
-    
-        <div class="box-img">
-            <!-- <img [src]="'assets/img/' + recipe?.image" [alt]="recipe?.title"> -->
-            <img [src]="recipe?.image ? 'http://localhost:8080/img/' + recipe?.image : 'assets/img/default.jpg'" [alt]="recipe?.title">
-    
-            <div class="box-img-icons">
-                <!-- <div (click)="toggleFavorite()"><span class="icon-star-full" [ngClass]="{ 'active': isFavorite }"></span></div> -->
-                <div></div>
-                <div>Partager :
-                    <a href="https://www.facebook.com/sharer/sharer.php?u="><span class="icon-f"></span></a>
-                    <a href="#"><span class="icon-i"></span></a>
-                    <a href="https://twitter.com/share?url="><span class="icon-t"></span></a>
+        @let r = recipe(); <!-- Pour ne pas répéter -->
+
+        @if (r) {
+
+            <h1 class="center">{{ r.title }}</h1>
+
+            <p class="right">Catégorie : <span class="category-tag">{{ r.categoryName }}</span></p>
+        
+            <div class="box-img">
+                <!-- <img [src]="'assets/img/' + recipe?.image" [alt]="recipe?.title"> -->
+                <img [src]="r.image ? 'http://localhost:8080/img/' + r.image : 'assets/img/default.jpg'" [alt]="r.title">
+        
+                <div class="box-img-icons">
+                    <!-- <div (click)="toggleFavorite()"><span class="icon-star-full" [ngClass]="{ 'active': isFavorite }"></span></div> -->
+                    <div></div>
+                    <div>Partager :
+                        <a href="https://www.facebook.com/sharer/sharer.php?u="><span class="icon-f"></span></a>
+                        <a href="#"><span class="icon-i"></span></a>
+                        <a href="https://twitter.com/share?url="><span class="icon-t"></span></a>
+                    </div>
+                </div>
+        
+                <div class="info-box">
+                    <div class="info-box-in">
+                        <div><span class="icon-prep-time"></span></div>
+                        <div>
+                            <div class="b">Préparation</div>
+                            <span>{{ r.prepTime }}</span> min
+                        </div>
+                    </div>
+                    <div class="info-box-in">
+                        <div><span class="icon-cook-time"></span></div>
+                        <div>
+                            <div class="b">Cuisson</div>
+                            <span>{{ r.cookTime }}</span> min
+                        </div>
+                    </div>
+                    <div class="info-box-in">
+                        <div><span class="icon-characters"></span></div>
+                        <div>
+                            <div class="b">Portions</div>
+                            <span>{{ r.servings }}</span> pers
+                        </div>
+                    </div>
                 </div>
             </div>
-    
-            <div class="info-box">
-                <div class="info-box-in">
-                    <div><span class="icon-prep-time"></span></div>
-                    <div>
-                        <div class="b">Préparation</div>
-                        <span>{{ recipe?.prepTime }}</span> min
-                    </div>
-                </div>
-                <div class="info-box-in">
-                    <div><span class="icon-cook-time"></span></div>
-                    <div>
-                        <div class="b">Cuisson</div>
-                        <span>{{ recipe?.cookTime }}</span> min
-                    </div>
-                </div>
-                <div class="info-box-in">
-                    <div><span class="icon-characters"></span></div>
-                    <div>
-                        <div class="b">Portions</div>
-                        <span>{{ recipe?.servings }}</span> pers
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <h2 class="h-triangle">Description</h2>
+        
+            <h2 class="h-triangle">Description</h2>
 
-        <p>{{ recipe?.description }}</p>
-    
-        <h2 class="h-triangle">Ingrédients</h2>
-    
-        <ul class="ingredient-box">
-            <!-- <li>Farine : 125 g</li>
-            <li>Beurre salé : 70 g</li>
-            <li>Œuf(s) : 3</li>
-            <li>Eau : 0,25 l</li>
-            <li>Sel : 5 g</li>
-            <li>Sucre semoule : 175 g</li>
-            <li>Lait entier : 0,5 l</li>
-            <li>Jaune(s) d'œuf(s) : 4</li>
-            <li>Vanille : 1</li> -->
-    
-            @for (ingredient of recipe?.ingredients; track ingredient) {
-                <li>{{ ingredient.name }} : {{ ingredient.quantity }} {{ ingredient.unit }}</li>
-            }
-        </ul>
-    
-        <h2 class="h-triangle">Instructions</h2>
-    
-        <div class="box-text">
-            <!-- <p>Qui aime les choux à la crème ? Tout le monde ! Et ceux-là sont tout simplement divins. Une pâte à choux légère et aérienne, de la crème pâtissière vanillée gourmande et savoureuse... Voilà LA recette qui vous fera réussir des petits choux exquis à coup sûr pour épater !</p>
-            <p>Testez-la, vous nous en direz des nouvelles (et vos invités aussi) !</p> -->
-    
-            <!-- <div class="box-text">{{ recipe?.instructions }}</div> -->
-    
-            <div class="box-text">
-                <!-- Considérer chaque saut de ligne comme une étape en affichant Etape n : -->
-                @for (step of recipe?.instructions?.split('\n'); track step; let i = $index) {
-                    @if (step.trim() !== '') {
-                        <p class="b">Étape {{ i + 1 }} :</p>
-                        <p>{{ step }}</p>
-                    }
+            <p>{{ r.description }}</p>
+        
+            <h2 class="h-triangle">Ingrédients</h2>
+        
+            <ul class="ingredient-box">
+                <!-- <li>Farine : 125 g</li>
+                <li>Beurre salé : 70 g</li>
+                <li>Œuf(s) : 3</li>
+                <li>Eau : 0,25 l</li>
+                <li>Sel : 5 g</li>
+                <li>Sucre semoule : 175 g</li>
+                <li>Lait entier : 0,5 l</li>
+                <li>Jaune(s) d'œuf(s) : 4</li>
+                <li>Vanille : 1</li> -->
+        
+                @for (ingredient of r.ingredients; track ingredient) {
+                    <li>{{ ingredient.name }} : {{ ingredient.quantity }} {{ ingredient.unit }}</li>
                 }
+            </ul>
+        
+            <h2 class="h-triangle">Instructions</h2>
+        
+            <div class="box-text">
+                <!-- <p>Qui aime les choux à la crème ? Tout le monde ! Et ceux-là sont tout simplement divins. Une pâte à choux légère et aérienne, de la crème pâtissière vanillée gourmande et savoureuse... Voilà LA recette qui vous fera réussir des petits choux exquis à coup sûr pour épater !</p>
+                <p>Testez-la, vous nous en direz des nouvelles (et vos invités aussi) !</p> -->
+        
+                <!-- <div class="box-text">{{ recipe?.instructions }}</div> -->
+        
+                <div class="box-text">
+                    <!-- Considérer chaque saut de ligne comme une étape en affichant Etape n : -->
+                    @for (step of r.instructions?.split('\n'); track step; let i = $index) {
+                        @if (step.trim() !== '') {
+                            <p class="b">Étape {{ i + 1 }} :</p>
+                            <p>{{ step }}</p>
+                        }
+                    }
+                </div>
+        
             </div>
-    
-        </div>
+
+        }
 
     </main>
 

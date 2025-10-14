@@ -8,10 +8,11 @@
         <div class="profile-box">
             <div class="profile-box-header"><span class="icon-user"></span> {{ username }} </div> <!-- username récupéré depuis localStorage -->
             <div class="profile-box-body">
-                <p>Pseudo : {{ user?.username }}</p><!-- username récupéré depuis API -->
-                <p>Email : {{ user?.email }}</p>
+                <!-- <p>Pseudo : {{ user?.username }}</p> --> <!-- Sans signal -->
+                <p>Pseudo : {{ user()?.username }}</p><!-- username récupéré depuis API -->
+                <p>Email : {{ user()?.email }}</p>
                 <p>Rôle : {{ roleName }}</p>
-                <p>Inscrit le {{ user?.createdAt | date:'dd/MM/yyyy' }}</p>
+                <p>Inscrit le {{ user()?.createdAt | date:'dd/MM/yyyy' }}</p>
             </div>
             <div class="profile-box-footer right">
                 <a routerLink="/membre-edit"><span class="icon-pencil"></span> Modifier</a>

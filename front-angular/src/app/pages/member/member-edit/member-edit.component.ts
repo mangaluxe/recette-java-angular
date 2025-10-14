@@ -3,7 +3,7 @@
 // ng generate component pages/member/member-edit
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UsersService } from '../../../services/users.service';
@@ -21,12 +21,14 @@ export class MemberEditComponent implements OnInit {
   userId!: number; // id utilisateur actuel
   errorMessage: string = ''; // Message d'erreur affiché dans le template
 
+  private readonly usersService = inject(UsersService); // Nouvelle façon d'injecter le service
+
 
   // ========== Constructeur ==========
 
   constructor(
     private fb: FormBuilder,
-    private usersService: UsersService,
+    // private usersService: UsersService,
     private router: Router
   ) { }
 

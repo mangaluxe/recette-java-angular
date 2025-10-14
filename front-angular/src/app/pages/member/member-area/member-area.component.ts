@@ -2,7 +2,7 @@
 
 // ng generate component pages/member/member-area
 
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { RouterLink } from '@angular/router';
 import { User } from '../../../models/user';
@@ -17,12 +17,15 @@ export class MemberAreaComponent {
 
   // ========== Propriétés ==========
   
-  user: User | null = null;
+  // user: User | null = null;
+  user = signal<User | null>(null); // 💥 Avec signal
+
+  private readonly authService = inject(AuthService); // Injection du service
 
 
   // ========== Constructeur ==========
 
-  constructor(private authService: AuthService) { }
+  // constructor(private authService: AuthService) {}
 
 
   // ========== Méthodes ==========
@@ -39,7 +42,8 @@ export class MemberAreaComponent {
    */
   getUserProfile(): void {
     this.authService.getUserProfile().subscribe({
-      next: (res) => this.user = res,
+      // next: (res) => this.user = res,
+      next: (res) => this.user.set(res), // 💥 Avec signal
       error: (err) => console.error("Erreur profil:", err)
     });
   }

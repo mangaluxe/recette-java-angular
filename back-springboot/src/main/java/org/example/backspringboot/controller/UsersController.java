@@ -1,5 +1,6 @@
 package org.example.backspringboot.controller;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.example.backspringboot.dto.ErrorResponse;
 import org.example.backspringboot.dto.UsersDtoReceive;

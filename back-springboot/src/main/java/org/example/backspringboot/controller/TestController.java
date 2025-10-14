@@ -1,11 +1,16 @@
 package org.example.backspringboot.controller;
 
+import jakarta.servlet.http.HttpSession;
+import org.example.backspringboot.dto.SessionDto;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
+
+    // ---------- Mot de passe ----------
 
     /**
      * Test de Cryptage BCrypt
@@ -16,6 +21,7 @@ public class TestController {
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt()); // BCrypt.hashpw() pour hasher
         System.out.println("Mot de passe hashé : " + hashed); // Exemple: $2a$10$iFp8RTN0gJuFprcbbLu3QemQwGEPqHUi6pLRLJI6Ma004xKGhsUze
     }
+
 
     /**
      * Test de Décryptage BCrypt
@@ -32,6 +38,24 @@ public class TestController {
         else {
             System.out.println("Erreur pseudo ou mot de passe");
         }
+    }
+
+
+    // ---------- Session ----------
+
+    /**
+     * Afficher les données stockées en session
+     */
+    @GetMapping("/session")
+    public ResponseEntity<?> getUserProfile(HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        String username = (String) session.getAttribute("username");
+        String roleName = (String) session.getAttribute("roleName");
+
+        // return ResponseEntity.ok("userId: " + userId + " / username: " + username + " / roleName: " + roleName);
+
+        SessionDto profile = new SessionDto(userId, username, roleName);
+        return ResponseEntity.ok(profile);
     }
 
 }

@@ -2,7 +2,7 @@
 
 // ng generate component pages/search
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Recipe } from '../../models/recipe';
 import { RecipesService } from '../../services/recipes.service';
 import { RouterLink } from '@angular/router';
@@ -17,9 +17,11 @@ export class SearchComponent implements OnInit {
 
   // ========== Propriétés ==========
 
-  recipes: Recipe[] = [];
+  // recipes: Recipe[] = [];
+  recipes = signal<Recipe[]>([]); // 💥 Avec signal
 
-  searchTerm = '';
+  // searchTerm = '';
+  searchTerm = signal<string>(''); // 💥 Avec signal
 
   // ========== Constructeur ==========
 
@@ -38,7 +40,8 @@ export class SearchComponent implements OnInit {
    */
   getRecipes(): void {
     this.recipesService.getRecipes().subscribe({
-      next: (res) => this.recipes = res,
+      // next: (res) => this.recipes = res,
+      next: (res) => this.recipes.set(res), // 💥 Avec signal
       error: (err) => console.error(err)
     });
   }
@@ -48,7 +51,8 @@ export class SearchComponent implements OnInit {
    */
   onSearch(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.searchTerm = input.value;
+    // this.searchTerm = input.value;
+    this.searchTerm.set(input.value); // 💥 Avec signal
   }
 
   // ========== Getter ==========
@@ -57,11 +61,13 @@ export class SearchComponent implements OnInit {
    * Filtrer recette
    */
   get filteredRecipes() {
-    if (!this.searchTerm || this.searchTerm.trim().length < 2) {
+    // if (!this.searchTerm || this.searchTerm.trim().length < 2) {
+    if (!this.searchTerm() || this.searchTerm().trim().length < 2) { // 💥 Avec signal
       return [];
     }
-    const term = this.searchTerm.toLowerCase();
-    return this.recipes.filter(recipe =>
+    const term = this.searchTerm().toLowerCase();
+    // return this.recipes.filter(recipe =>
+    return this.recipes().filter(recipe => // 💥 Avec signal
       recipe.title.toLowerCase().includes(term) ||
       recipe.description.toLowerCase().includes(term)
     );

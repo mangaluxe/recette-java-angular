@@ -3,7 +3,7 @@
 // ng generate component pages/login
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -20,12 +20,14 @@ export class LoginComponent {
   login_form: FormGroup; // Formulaire pour inscription d'utilisateur
   errorMessage: string | null = null;
 
+  private readonly authService = inject(AuthService); // Nouvelle façon d'injecter le service
+
 
   // ========== Constructeur ==========
   
   constructor(
     private fb: FormBuilder  ,
-    private authService: AuthService,
+    // private authService: AuthService,
     private router: Router
   ) {
     this.login_form = this.fb.group({

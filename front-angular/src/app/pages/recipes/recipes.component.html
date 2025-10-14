@@ -9,7 +9,8 @@
 
         <div class="recipes-container">
     
-            @for (recipe of recipes; track recipe) {
+            <!-- @for (recipe of recipes; track recipe) { -->
+            @for (recipe of recipes(); track recipe) { <!-- 💥 Accès à la valeur du signal avec () -->
     
                 <div class="recipe-box">
                     <div class="recipe-box-in">
@@ -25,7 +26,7 @@
                 </div>
             }
             @empty {
-                <p class="center">Aucune recette</p>
+                <p class="center">Aucune recette (ou vous n'avez pas lancé l'application back-end)</p>
             }
 
         </div>

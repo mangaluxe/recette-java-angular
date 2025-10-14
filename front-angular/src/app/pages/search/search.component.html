@@ -6,7 +6,8 @@
         <h1 class="center">Rechercher une recette</h1>
 
         <form>
-            <input type="text" placeholder="Rechercher une recette" [value]="searchTerm" (input)="onSearch($event)">
+            <!-- <input type="text" placeholder="Rechercher une recette" [value]="searchTerm" (input)="onSearch($event)"> -->
+            <input type="text" placeholder="Rechercher une recette" [value]="searchTerm()" (input)="onSearch($event)">
         </form>
 
         @if (filteredRecipes.length === 0) {

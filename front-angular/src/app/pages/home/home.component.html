@@ -8,7 +8,8 @@
         <p><a routerLink="/recettes">Toutes nos recettes</a></p>
 
         @if (isLogged()) {
-            <p>Vous êtes connecté !</p>
+            <!-- <p>Vous êtes connecté ! Bonjour {{ username }} !</p> -->
+            <p>Vous êtes connecté ! Bonjour {{ username() }} !</p> <!-- 💥 Avec signal -->
         }
         @else {
             <p>Vous n'êtes pas connecté !</p>

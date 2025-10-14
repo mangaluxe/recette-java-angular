@@ -1,5 +1,6 @@
 package org.example.backspringboot.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.example.backspringboot.dto.LoginRequest;
 import org.example.backspringboot.dto.LoginResponse;
 import org.example.backspringboot.entity.Users;
@@ -33,16 +34,31 @@ public class AuthController {
     // ========== Méthodes ==========
 
     @PostMapping("/connexion")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session) {
         Users user = usersRepository.findByUsername(request.getUsername());
 
         if (user == null || !BCrypt.checkpw(request.getPassword(), user.getPassword())) {
             return ResponseEntity.status(401).body("Identifiants invalides");
         }
 
-        String token = jwtService.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user.getUsername()); // Générer le token JWT
 
-        return ResponseEntity.ok(new LoginResponse(token, user.getId(), user.getUsername(), user.getRole().getRoleName()));
+        // Stocker les informations de l'utilisateur dans la session :
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("roleName", user.getRole().getRoleName());
+
+        // Récupérer les valeurs depuis la session (à faire dans un autre controller) :
+        Long userId = (Long) session.getAttribute("userId");
+        String username = (String) session.getAttribute("username");
+        String roleName = (String) session.getAttribute("roleName");
+
+        // Test :
+        System.out.println("Session userId: " + userId);
+        System.out.println("Session username: " + username);
+        System.out.println("Session roleName: " + roleName);
+
+        return ResponseEntity.ok(new LoginResponse(token, user.getId(), user.getUsername(), user.getRole().getRoleName())); // Retourner la réponse avec le token JWT
     }
 
 

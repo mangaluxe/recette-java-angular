@@ -13,7 +13,8 @@
         </div>
         <ul class="table-list">
 
-            @for (user of users; track user) {
+            <!-- @for (user of users; track user) { -->
+            @for (user of users(); track user) { <!-- 💥 Accès à la valeur du signal avec () -->
                 <li>
                     <div class="e"><a [routerLink]="['/utilisateur', user.id]">{{ user.username }}</a></div>
                     <div class="e">{{ user.email }}</div>
